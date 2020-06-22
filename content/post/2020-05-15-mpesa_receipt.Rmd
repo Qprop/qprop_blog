@@ -1,0 +1,266 @@
+---
+title: "MPESA RECEIPT SERIALIZATION"
+author: ""
+date: 2020-05-15
+description: "Examining letter serialization of Mpesa SMS receipts. Do they have a pattern?"
+tags: ["R","R-Tutorial","Text Mining"]
+output:
+  html_document:
+   toc: TRUE
+   toc_float: TRUE
+---
+
+____________
+
+## Introduction
+
+The main purpose of this particular article if I may call it so about a [tweet](er.com/i/status/1212607152881373184) that popped in my thread a few weeks ago. 
+How the largest mobile service provider in Kenya sequentially labels their innovative mobile money receipts. The receipts are usually in [SMS](https://en.wikipedia.org/wiki/SMS) (Short Message Service) format, every transaction you make you receive the SMS with receipt details. Details of amount sent, name, mobile number of recipient and balance of your account.
+
+According to the tweet, the initial two letters change every year, with tweeps even affirming the same. Coming from my various amusements in life, where data is king and interestingly being among the very few people with their backed up MPesa SMS's dating back to 2012. I used to backup my SMS after a certain period, this was not because I believed in backing up, on the contrary it was because I had my first Andriod flagship phone pet-named "Ideos" manufactured by Hauwei, model U8150 IDEOS. This gadget packed **512MB storage, 256MB RAM, 3.2MP back camera** and wait for it running android version `2.2 Froyo` now we are on version 10.0.
+
+Now starts the fun part, using my somewhat experience in data analysis I embarked on the journey of retrieving all my old backed up SMS. Best part about it they are saved as XML thanks to the app I downloaded back in 2012 [SMS Backup & Restore](https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore&hl=en) interestingly it runs on even the current versions of android talk of backward compatibility with native apps, back then the logo was blue and not current green.
+
+### Intended approach
+
+Fair warning I will be going full macho technical, do bear with me if my lingo is not straight forward, the plus is still you can be able to follow. FYI you can skip the next parts go straight to conclusion.
+
+After merging all the XML files and then filtering out MPesa messages. I proceeded to used regular expression (Regex) to pick the receipt number and the date the SMS was received. The receipt is text format and includes other details such us the number you are sending to the name of the recipient, the amount being sent or received, your MPesa account balance and additional promotional items.
+
+## Setup
+
+Loading libraries I will be using.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+#loading necessary
+
+library("stringr") #String manipulation
+library("tidyr") #Tidying data
+library("dplyr") #data manipulation 
+library("openxlsx") #Reading excel
+library("xml2") #Reading xml and manipulating xml docs
+library("purrr") #Functional mapping across vectors
+library("lubridate") #date manipulation
+library("ggplot2") #Grammar of graphics. 
+```
+
+I normally find myself loading both `tidyr` and `dplyr` because I end up using both freely. Truth be told I end up forgetting which functions come from which package.
+
+## Reading XML
+
+As mentioned the back of the texts are in XML format. 24 XML files starting from October 2012 to Jan 2020, we shall explore this later.
+
+I did some preprocessing of loading the texts, I will show you the steps I used but won't avail the data.
+It's a dump of my personal messages. 
+
+All the XML files are in one folder, we load the file names from the folder. Using `list.files` and the argument `pattern = ".xml$"` to ensure we only pick `.xml` files.
+
+```{r, eval=FALSE, include=TRUE}
+
+list_files <- list.files("../SMSBackupRestore/", pattern = ".xml$")
+list_files
+
+```
+
+Now, that we have the list of files names we need to load it up to R. Challenge reading each file then merging them together into one whilst ensuring that you optimize your memory usage.
+
+Created function `func_xml_work` to read and manipulate the xlm code. Snippet of how the xml looks initially below.
+
+```{css, echo=TRUE}
+
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<!--File Created By SMS Backup & Restore v10.06.102 on 16/01/2020 18:39:33-->
+<smses count="2" backup_set="f24cc90b" backup_date="1579189173334">
+  <sms protocol="0" address="MPESA" date="1506773148699" type="1" subject="null" body="LIU5GRAAHF confirmed.You bought KshXXX of airtime on 30/9/17 at 3:05 PM.New M-PESA balance is KshXX. Transaction cost, Ksh0.00." toa="null" sc_toa="null" service_center="null" read="1" status="-1" locked="0" date_sent="1506773145000" sub_id="-1" readable_date="30 Sep 2017 15:05:48" contact_name="(Unknown)" />
+  <sms protocol="0" address="MPESA" date="1506855198658" type="1" subject="null" body="LJ14HATBG6 Confirmed. KshXXX sent to XXXX on 1/10/17 at 1:53 PM. New M-PESA balance is KshXXX. Transaction cost, KshXXX." toa="null" sc_toa="null" service_center="null" read="1" status="-1" locked="0" date_sent="1506855181000" sub_id="-1" readable_date="1 Oct 2017 13:53:18" contact_name="(Unknown)" />
+  </smses>
+
+```
+
+My initial implementation was filled with `for-loops` and was very slow, so I switched to using `xml2`. I am still cranky when using it, fumbling around I was able to hook up the function.
+
+- Reading the xml using `read_xml` kinder obvious
+- Dropping down the nodes to the child nodes `xml_children`, XML takes similar approach to html with a tree structure of sort. To save myself the trouble I used `xml_children` to read them all at once but if you know the name of the key you can use `xml_child(doc, "keyname")` to directly access a single key.
+- Pick the attributes from the child nodes `xml_attrs`
+- Since picking attributes creates a list we convert it to a data frame `as.data.frame` then transpose `t`. 
+- Notice I created an object `len_size` this was to count the number of child attributes and picking the one with the highest count I pick that as the number of rows.
+
+```{r, eval=FALSE, include=TRUE}
+func_xml_work <- function(i){
+  xm_file <- xml2::read_xml(list_files[i])
+  xm_children <- xml_children(xm_file)
+  xm_list <- xml_attrs(xm_children)
+  len_size <- table(unlist(lapply(xm_list,length)))
+  dt <- as.data.frame(t(as.data.frame(xm_list[1:as.numeric(len_size[[1]])])), row.names = FALSE)
+  return(dt)
+}
+```
+
+Gymnastics we have a function that will read the XML file and convert it to a data frame.
+Now we need to see that it combines with the other XML files into one. That is where the party begins.
+You can opt either to:
+
+i) Read all files to R then merge them from R. The disadvantage it will not be prudent, memory optimization.
+ii) Read the files and merge immediately, continuous merge as you load. This helps with memory optimization.
+
+I opt for the second option, implementation is harder but reward is better memory optimization.
+Second function `func_merge_dt` merging the xml files loaded to `R` on the go, simple procedure using `bind_rows`
+
+
+```{r, eval=FALSE, include=TRUE}
+dt_comb <- as.data.frame(NULL)
+
+func_merge_dt <- function(len){
+    dt_temp <- func_xml_work(len)
+    dt_comb <- bind_rows(dt_temp)
+    #print(nrow(dt_temp))
+    return(dt_comb)
+}
+
+dt_comb <-map_dfr(1:length(list_files),func_merge_dt)
+```
+
+## Data munging
+
+Finally we have the all the xmls loaded and saved as one data frame. Let the games begin.
+Concentrate on the topic of the day, MPESA receipts. Good thing their is a variable `address` which makes this easier, filter data-set by MPESA.
+
+I need to anonymise the receipts, leaving it with no personal identification information. Turn all names, amounts and phone numbers to XXX.
+
+My preference is using `stringr` suite of functions because they are easy to manipulate strings. The name of the functions are even easier to remember. I tend to use a lot of regex for the data extraction.
+
+```{r, eval=FALSE, include=TRUE}
+dt_mpesa <- dt_comb %>% 
+  filter(address == "MPESA")
+
+dt_mpesa <- dt_mpesa %>% 
+  distinct(body, .keep_all = TRUE)
+
+##Anonymising the data ----
+
+dt_mpesa$body <- dt_mpesa$body %>% 
+  str_replace_all("\\+254","254")
+  str_replace("sent to ([:graph:]|[:space:]){0,} [:digit:]{0,} ", "sent to XXXX ") %>% 
+  str_replace_all("Ksh([:digit:]|[:punctuation:]){0,}","KshXX.XX") %>% 
+  str_replace("paid to ([:graph:]|[:space:]|[:digit:]){0,} on ", "paid to XXXX on ") %>% 
+  str_replace_all("from\\s([:graph:]|[:space:]){0,}\\son", "from XXXX on") %>% 
+  str_replace_all("from([:graph:]|[:space:]){0,}\\son", "from XXXX on") %>% 
+  str_replace_all("kutoka\\s([:graph:]|[:space:]){0,}\\sMnamo  ", "kutoka XXXX Mnamo  ") %>% 
+  str_replace_all("from\\s([:graph:]|[:space:]){0,}\\sNew\\sM", "from XXXX New M") %>% 
+  str_replace("airtime for ([:digit:]){0,} on ", "airtime for XXXX on ") %>% 
+  str_replace_all("cash\\sto\\s([:graph:]|[:space:]){0,}\\sNew\\sM", "cash to XXXX New M")
+
+```
+
+## Exploratory data analysis
+
+First we load the anonymized data which I have made public. Then get our hands dirty with the grease.
+
+Reduce the variables to just what we need
+
+```{r}
+
+dt_mpesa <- read.xlsx("mpesa_trans.xlsx")
+#dt_mpesa <- read.xlsx("../Rtest/Mpesa/mpesa_trans.xlsx")
+
+#colnames(dt_mpesa)
+
+dt_mpesa <- dt_mpesa %>% 
+  select(c("address","date","body","readable_date"))
+
+colnames(dt_mpesa)
+
+```
+
+Check randomly 5 cases/rows in the data-set. To have an idea of what we are working with.
+I will convert the data frame to a tibble, tibble have a nice format when shown in a markdown
+
+```{r}
+dt_mpesa <- as_tibble(dt_mpesa)
+sample_n(dt_mpesa, 5) %>% 
+  knitr::kable("html")
+
+```
+
+We some data mining is needed to extract values from the string in `body`. Just have the right tool here for this and for me it is `stringr`.
+What we are aiming for:
+
+i) Pick date
+ii) Pick receipt number
+
+`stringr` function `str_extract` will be our favorite out of the box tool. For extracting the values. After which we shall filter down the data to only actual receipt numbers.
+
+```{r}
+dt_mpesa["receipt_no"] <- dt_mpesa$body %>% str_extract("\\w+")
+dt_mpesa["receipt_dig2"] <- dt_mpesa$receipt_no %>% str_extract("[A-Z]{0,2}")
+dt_mpesa["act_date"] <- dt_mpesa$body %>% str_extract("[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{1,2}")
+dt_mpesa["year"] <- dt_mpesa$readable_date %>% str_extract("[0-9][0-9][0-9][0-9]") 
+
+dt_mpesa$act_date <- dt_mpesa$act_date %>% dmy()
+
+dt_mpesa <- dt_mpesa %>% 
+  filter(!(receipt_no %in% c("Failed","Transaction","You","Your","To","BRIAN","An")))
+
+dt_mpesa <- dt_mpesa %>% 
+  filter(!is.na(month(dt_mpesa$act_date)))
+
+
+dt_mpesa <- dt_mpesa[nchar(dt_mpesa$receipt_dig2) == 2,]
+dt_mpesa["receipt_dig1"] <- substr(dt_mpesa$receipt_dig2,1,1)
+
+sample_n(dt_mpesa, 5) %>% 
+  knitr::kable("html")
+```
+
+Now we have our data arranged in formats we would like. Let us see what we can deduce from the data
+
+```{r}
+count(dt_mpesa, year) %>% 
+  knitr::kable("markdown")
+
+ggplot(dt_mpesa, aes(x = year)) +  
+  geom_bar(colour = "green") +
+    geom_text(aes(label = ..count..), stat = "count",
+            vjust = 1.5, colour = "white") + 
+  ylab("Number of transactions") + 
+  ggtitle("Frequency of Transactions", "Oct 2012 - Jan 2020")
+
+```
+
+The first letter is the year. Let us test that.
+
+```{r}
+dt_mpesa %>% 
+  group_by(year) %>% 
+  count(first_letter = receipt_dig1) %>% 
+  knitr::kable("markdown")
+  
+dt_mpesa <- dt_mpesa %>% ungroup()
+
+ggplot(dt_mpesa, aes(x = year, y = receipt_dig1)) +
+  geom_segment(aes(yend = receipt_dig1), xend = 0, colour = "grey50") + 
+  geom_point(colour = "green", size = 5) + 
+  theme_bw() + 
+  theme(
+    panel.grid.major.y = element_blank()
+  ) + 
+  ylab("First Letter in Receipt Number") + 
+  ggtitle("Year vs First Letter","Which first letters are in every year")
+
+
+```
+
+The second letter stands for the month. Is that the case let us see.
+
+```{r}
+dt_mpesa %>% 
+  group_by(year,month = month(act_date)) %>% 
+  count(two_digit = receipt_dig2) %>% 
+  as_tibble() %>% 
+  sample_n(5) %>% 
+  knitr::kable("markdown")
+
+dt_mpesa <- dt_mpesa %>% ungroup()
+```
+
+## Work in progress

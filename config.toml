@@ -1,0 +1,83 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Galaxy of Thoughts"
+theme = "hugo-ink"
+paginate = 5
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+
+copyright = " © Copyright notice"
+
+
+pygmentsstyle = "vs"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+googleAnalytics = ""
+disqusShortname = ""
+
+[params]
+	subtitle = "**Mental journies shuttling between utopia, dystopia and bordering paranoia.**"
+
+	# Optional 64x64 avatar image.
+	avatar = "https://avatars2.githubusercontent.com/u/16720534?s=400&u=e0c5f0c18c51229fafba41f2351da3513e4ca602&v=4"
+
+	# Content types to disable Disqus on.
+	disableDisqusTypes = ["page"]
+	
+	featherIconsCDN = true
+
+	mode = "dark" # "dark" or "auto"
+	# customCSS = "css/custom.css"  # Custom CSS applied to default styles.
+	# customDarkCSS = "css/custom-dark.css"  # Custom styles applied to dark mode css.
+	# customJS = ["js/custom.js", "js/custom1.js"]  # Custom JS scripts.
+
+# Nav.
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+#[[menu.main]]
+#name = "All posts"
+#url = "/posts"
+#weight = 2
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 3
+
+[[menu.main]]
+name = "Books"
+url = "/books"
+weight = 4
+
+[[menu.main]]
+name = "Online Links"
+url = "/online_links"
+weight = 5
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 6
+
+[[params.social]]
+name = "Github"
+icon = "github"
+url = "https://github.com/Qprop/Galaxy-of-Thoughts"
+
+[[params.social]]
+name = "Twitter"
+icon = "twitter"
+url = "https://twitter.com/yobra_qprop"
+
+#[[params.social]]
+#name = "RSS"
+#icon = "rss"
+#url = "/index.xml"
+
+
+[taxonomies]
+   tag = "tags"
+

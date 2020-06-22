@@ -1,0 +1,168 @@
+---
+title: "Regular Expression Tutorial [Regex]"
+date: 2019-04-09T02:01:58+05:30
+description: "Simple Regular Expression Tutorials"
+tags: ["R","R-Tutorial"]
+---
+
+
+
+<hr />
+<div id="introduction" class="section level1">
+<h1>1. Introduction</h1>
+<p>What is <strong>Regular Expression</strong> <em>a.k.a</em> <strong>RegEx</strong> , an attempt to define this is at times makes the tool use under explained or overly complicated. Though let me try <strong>RegEx</strong> in simple terms is a way of handling and manipulating characters in ways different ways while simplifying the effort of the process.</p>
+<hr />
+<p>We use <strong>RegEx</strong> on a daily basis it is just that we do not know areas where we use are below:</p>
+<p>When using search and find</p>
+<ul>
+<li>Most of us have searched words in word documents excel, the process in which this applications are able to search apply <strong>RegEx</strong> expressions at the background</li>
+</ul>
+<p>When creating passwords</p>
+<ul>
+<li>We find ourselves when creating passwords being told we need special characters, capitalized letter, numerics and lower case letters. How does the system know when you have not been able to put all this into the password. Very thought provocative I would say.</li>
+</ul>
+<hr />
+</div>
+<div id="tenets-of-regex" class="section level1">
+<h1>2. Tenets of RegEx</h1>
+<p><strong>RegEx</strong> really on key concepts that make it work:</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="69%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rule</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Character Matching</td>
+<td>- Being able to locating alphabetic characters e.g. <code>ABCDEF..</code></td>
+</tr>
+<tr class="even">
+<td>Numerical Matching</td>
+<td>- Locating numerals e.g. <code>123-456</code></td>
+</tr>
+<tr class="odd">
+<td>Special Character Matching</td>
+<td>- Locating special characters e.g. <code>$#@!</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div id="i-character-matching" class="section level2">
+<h2>i) Character Matching</h2>
+<p>What happens when we want to find a certain character in a text. Lets get our hands dirty.</p>
+<pre class="r"><code>ex_text &lt;- c(&quot;The&quot;,&quot;fat&quot;,&quot;cat&quot;,&quot;sat on the mat&quot;)
+grep(&quot;at&quot;,ex_text, value = TRUE)</code></pre>
+<pre><code>## [1] &quot;fat&quot;            &quot;cat&quot;            &quot;sat on the mat&quot;</code></pre>
+<p>What you will notice the output picks words that have <code>at</code> any where on the string vector <code>ex_text</code></p>
+<p>Am a proponent of <a href="http://https://www.tidyverse.org">Tidyverse</a> packages, this are the likes of <em>tidyr, dplyr, stringr etc</em></p>
+<hr />
+<p>One of my favourite stingr manipulation library is <a href="https://stringr.tidyverse.org/">stringr</a>, it has easy understanding of syntax. Let use the example we had previously</p>
+<pre class="r"><code>library(stringr)</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.6.3</code></pre>
+<pre class="r"><code>ex_text &lt;- c(&quot;The&quot;,&quot;fat&quot;,&quot;cat&quot;,&quot;sat on the mat&quot;)
+str_detect(ex_text,&quot;at&quot;)</code></pre>
+<pre><code>## [1] FALSE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>ex_text[str_detect(ex_text,&quot;at&quot;)]</code></pre>
+<pre><code>## [1] &quot;fat&quot;            &quot;cat&quot;            &quot;sat on the mat&quot;</code></pre>
+<p>You will notice from <code>str_detect(ex_text,"at")</code> that we get logical values <code>TRUE</code> shows elements in the vector that match will <code>FALSE</code> is the opposite.</p>
+<hr />
+<p>But at times we want to pick alphabetic characters from a text with mixed characters. How can we do this? Before we talk about that I will introduce <code>meta characters</code> that are very important.</p>
+<table>
+<colgroup>
+<col width="41%" />
+<col width="58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Meta Character</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.</code></td>
+<td>A period is used to connote any instance of a single character</td>
+</tr>
+<tr class="even">
+<td><code>[]</code></td>
+<td>Square brackets are used to give ranges both Alphabets and Numerics</td>
+</tr>
+<tr class="odd">
+<td><code>*</code></td>
+<td>Match multiple characters 0 or more times</td>
+</tr>
+<tr class="even">
+<td><code>+</code></td>
+<td>Match multiple characters 1 or more times</td>
+</tr>
+<tr class="odd">
+<td><code>?</code></td>
+<td>The next character or instance is optional</td>
+</tr>
+<tr class="even">
+<td><code>{n,m}</code></td>
+<td>Matches a character at least <code>n</code> times and not more than <code>m</code> times</td>
+</tr>
+<tr class="odd">
+<td><code>(xyz)</code></td>
+<td>Match the exact characters</td>
+</tr>
+<tr class="even">
+<td><code>|</code></td>
+<td>Defacto logic for <code>or</code> pick any</td>
+</tr>
+<tr class="odd">
+<td><code>\</code></td>
+<td>Escaping characters, when you want to mean special characters are part of the text and this special characters are part of <strong>RegEx</strong> commands</td>
+</tr>
+<tr class="even">
+<td><code>^</code></td>
+<td>Matches the start of a statement or Word</td>
+</tr>
+<tr class="odd">
+<td><code>$</code></td>
+<td>Matches the end of a statement or word</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+<div id="ii-numerical-matching" class="section level2">
+<h2>ii) Numerical Matching</h2>
+<p>At times we want to pick numbers from a list of characters. Let us try. We will start using <code>stringr</code> moving forward</p>
+<pre class="r"><code>num_ex &lt;- &quot;My name is 123 what is456&quot;
+str_extract_all(num_ex,&quot;[0-9]&quot;)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot; &quot;6&quot;</code></pre>
+<p>Notice how we have used <code>[0-9]</code> what this is doing it is matching a range of numbers from <code>0</code> to <code>9</code>. If we want specific numbers we place the numbers directly.</p>
+<pre class="r"><code>num_ex &lt;- &quot;My name is 123 what is456&quot;
+str_extract(num_ex,&quot;23&quot;)</code></pre>
+<pre><code>## [1] &quot;23&quot;</code></pre>
+<hr />
+</div>
+<div id="iii-special-character-matching" class="section level2">
+<h2>iii) Special Character Matching</h2>
+<p>And what if we want to get special characters <code>!@#$</code>. Lets do this</p>
+<pre class="r"><code>spe_exa &lt;- c(&quot;M@ !| Bri@n&quot;)
+str_extract_all(spe_exa,&quot;\\|&quot;)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;|&quot;</code></pre>
+<p>Notice that we have <code>\\|</code> this is an escaping character <code>\</code> we are instructing the machine that this to exempt this particular symbol <code>|</code> is not the syntaxical command <code>or</code> symbol</p>
+<hr />
+<p>Now lets get our hands dirty with in depth practical examples.</p>
+<p>We can find very interesting addins for RStudio that can help with regex <a href="https://mobile.twitter.com/rstudiotips/status/1093938376762261504">RegEx Addin</a>, Though I would shy away from this. :-)</p>
+<hr />
+</div>
+</div>
+<div id="example-workings" class="section level1">
+<h1>4. Example workings</h1>
+<p>Import exercise 1.txt</p>
+<hr />
+<p>Using G-Suite base syntax</p>
+</div>

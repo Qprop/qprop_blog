@@ -1,0 +1,649 @@
+---
+title: "MPESA RECEIPT SERIALIZATION"
+author: ""
+date: 2020-05-15
+description: "Examining letter serialization of Mpesa SMS receipts. Do they have a pattern?"
+tags: ["R","R-Tutorial","Text Mining"]
+output:
+  html_document:
+   toc: TRUE
+   toc_float: TRUE
+---
+
+
+
+<hr />
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The main purpose of this particular article if I may call it so about a <a href="er.com/i/status/1212607152881373184">tweet</a> that popped in my thread a few weeks ago.
+How the largest mobile service provider in Kenya sequentially labels their innovative mobile money receipts. The receipts are usually in <a href="https://en.wikipedia.org/wiki/SMS">SMS</a> (Short Message Service) format, every transaction you make you receive the SMS with receipt details. Details of amount sent, name, mobile number of recipient and balance of your account.</p>
+<p>According to the tweet, the initial two letters change every year, with tweeps even affirming the same. Coming from my various amusements in life, where data is king and interestingly being among the very few people with their backed up MPesa SMS’s dating back to 2012. I used to backup my SMS after a certain period, this was not because I believed in backing up, on the contrary it was because I had my first Andriod flagship phone pet-named “Ideos” manufactured by Hauwei, model U8150 IDEOS. This gadget packed <strong>512MB storage, 256MB RAM, 3.2MP back camera</strong> and wait for it running android version <code>2.2 Froyo</code> now we are on version 10.0.</p>
+<p>Now starts the fun part, using my somewhat experience in data analysis I embarked on the journey of retrieving all my old backed up SMS. Best part about it they are saved as XML thanks to the app I downloaded back in 2012 <a href="https://play.google.com/store/apps/details?id=com.riteshsahu.SMSBackupRestore&amp;hl=en">SMS Backup &amp; Restore</a> interestingly it runs on even the current versions of android talk of backward compatibility with native apps, back then the logo was blue and not current green.</p>
+<div id="intended-approach" class="section level3">
+<h3>Intended approach</h3>
+<p>Fair warning I will be going full macho technical, do bear with me if my lingo is not straight forward, the plus is still you can be able to follow. FYI you can skip the next parts go straight to conclusion.</p>
+<p>After merging all the XML files and then filtering out MPesa messages. I proceeded to used regular expression (Regex) to pick the receipt number and the date the SMS was received. The receipt is text format and includes other details such us the number you are sending to the name of the recipient, the amount being sent or received, your MPesa account balance and additional promotional items.</p>
+</div>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Loading libraries I will be using.</p>
+<pre class="r"><code>#loading necessary
+
+library(&quot;stringr&quot;) #String manipulation
+library(&quot;tidyr&quot;) #Tidying data
+library(&quot;dplyr&quot;) #data manipulation 
+library(&quot;openxlsx&quot;) #Reading excel
+library(&quot;xml2&quot;) #Reading xml and manipulating xml docs
+library(&quot;purrr&quot;) #Functional mapping across vectors
+library(&quot;lubridate&quot;) #date manipulation
+library(&quot;ggplot2&quot;) #Grammar of graphics. </code></pre>
+<p>I normally find myself loading both <code>tidyr</code> and <code>dplyr</code> because I end up using both freely. Truth be told I end up forgetting which functions come from which package.</p>
+</div>
+<div id="reading-xml" class="section level2">
+<h2>Reading XML</h2>
+<p>As mentioned the back of the texts are in XML format. 24 XML files starting from October 2012 to Jan 2020, we shall explore this later.</p>
+<p>I did some preprocessing of loading the texts, I will show you the steps I used but won’t avail the data.
+It’s a dump of my personal messages.</p>
+<p>All the XML files are in one folder, we load the file names from the folder. Using <code>list.files</code> and the argument <code>pattern = ".xml$"</code> to ensure we only pick <code>.xml</code> files.</p>
+<pre class="r"><code>list_files &lt;- list.files(&quot;../SMSBackupRestore/&quot;, pattern = &quot;.xml$&quot;)
+list_files</code></pre>
+<p>Now, that we have the list of files names we need to load it up to R. Challenge reading each file then merging them together into one whilst ensuring that you optimize your memory usage.</p>
+<p>Created function <code>func_xml_work</code> to read and manipulate the xlm code. Snippet of how the xml looks initially below.</p>
+<pre class="css"><code>
+&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39; standalone=&#39;yes&#39; ?&gt;
+&lt;!--File Created By SMS Backup &amp; Restore v10.06.102 on 16/01/2020 18:39:33--&gt;
+&lt;smses count=&quot;2&quot; backup_set=&quot;f24cc90b&quot; backup_date=&quot;1579189173334&quot;&gt;
+  &lt;sms protocol=&quot;0&quot; address=&quot;MPESA&quot; date=&quot;1506773148699&quot; type=&quot;1&quot; subject=&quot;null&quot; body=&quot;LIU5GRAAHF confirmed.You bought KshXXX of airtime on 30/9/17 at 3:05 PM.New M-PESA balance is KshXX. Transaction cost, Ksh0.00.&quot; toa=&quot;null&quot; sc_toa=&quot;null&quot; service_center=&quot;null&quot; read=&quot;1&quot; status=&quot;-1&quot; locked=&quot;0&quot; date_sent=&quot;1506773145000&quot; sub_id=&quot;-1&quot; readable_date=&quot;30 Sep 2017 15:05:48&quot; contact_name=&quot;(Unknown)&quot; /&gt;
+  &lt;sms protocol=&quot;0&quot; address=&quot;MPESA&quot; date=&quot;1506855198658&quot; type=&quot;1&quot; subject=&quot;null&quot; body=&quot;LJ14HATBG6 Confirmed. KshXXX sent to XXXX on 1/10/17 at 1:53 PM. New M-PESA balance is KshXXX. Transaction cost, KshXXX.&quot; toa=&quot;null&quot; sc_toa=&quot;null&quot; service_center=&quot;null&quot; read=&quot;1&quot; status=&quot;-1&quot; locked=&quot;0&quot; date_sent=&quot;1506855181000&quot; sub_id=&quot;-1&quot; readable_date=&quot;1 Oct 2017 13:53:18&quot; contact_name=&quot;(Unknown)&quot; /&gt;
+  &lt;/smses&gt;
+</code></pre>
+<style type="text/css">
+
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<!--File Created By SMS Backup & Restore v10.06.102 on 16/01/2020 18:39:33-->
+<smses count="2" backup_set="f24cc90b" backup_date="1579189173334">
+  <sms protocol="0" address="MPESA" date="1506773148699" type="1" subject="null" body="LIU5GRAAHF confirmed.You bought KshXXX of airtime on 30/9/17 at 3:05 PM.New M-PESA balance is KshXX. Transaction cost, Ksh0.00." toa="null" sc_toa="null" service_center="null" read="1" status="-1" locked="0" date_sent="1506773145000" sub_id="-1" readable_date="30 Sep 2017 15:05:48" contact_name="(Unknown)" />
+  <sms protocol="0" address="MPESA" date="1506855198658" type="1" subject="null" body="LJ14HATBG6 Confirmed. KshXXX sent to XXXX on 1/10/17 at 1:53 PM. New M-PESA balance is KshXXX. Transaction cost, KshXXX." toa="null" sc_toa="null" service_center="null" read="1" status="-1" locked="0" date_sent="1506855181000" sub_id="-1" readable_date="1 Oct 2017 13:53:18" contact_name="(Unknown)" />
+  </smses>
+
+</style>
+<p>My initial implementation was filled with <code>for-loops</code> and was very slow, so I switched to using <code>xml2</code>. I am still cranky when using it, fumbling around I was able to hook up the function.</p>
+<ul>
+<li>Reading the xml using <code>read_xml</code> kinder obvious</li>
+<li>Dropping down the nodes to the child nodes <code>xml_children</code>, XML takes similar approach to html with a tree structure of sort. To save myself the trouble I used <code>xml_children</code> to read them all at once but if you know the name of the key you can use <code>xml_child(doc, "keyname")</code> to directly access a single key.</li>
+<li>Pick the attributes from the child nodes <code>xml_attrs</code></li>
+<li>Since picking attributes creates a list we convert it to a data frame <code>as.data.frame</code> then transpose <code>t</code>.</li>
+<li>Notice I created an object <code>len_size</code> this was to count the number of child attributes and picking the one with the highest count I pick that as the number of rows.</li>
+</ul>
+<pre class="r"><code>func_xml_work &lt;- function(i){
+  xm_file &lt;- xml2::read_xml(list_files[i])
+  xm_children &lt;- xml_children(xm_file)
+  xm_list &lt;- xml_attrs(xm_children)
+  len_size &lt;- table(unlist(lapply(xm_list,length)))
+  dt &lt;- as.data.frame(t(as.data.frame(xm_list[1:as.numeric(len_size[[1]])])), row.names = FALSE)
+  return(dt)
+}</code></pre>
+<p>Gymnastics we have a function that will read the XML file and convert it to a data frame.
+Now we need to see that it combines with the other XML files into one. That is where the party begins.
+You can opt either to:</p>
+<ol style="list-style-type: lower-roman">
+<li>Read all files to R then merge them from R. The disadvantage it will not be prudent, memory optimization.</li>
+<li>Read the files and merge immediately, continuous merge as you load. This helps with memory optimization.</li>
+</ol>
+<p>I opt for the second option, implementation is harder but reward is better memory optimization.
+Second function <code>func_merge_dt</code> merging the xml files loaded to <code>R</code> on the go, simple procedure using <code>bind_rows</code></p>
+<pre class="r"><code>dt_comb &lt;- as.data.frame(NULL)
+
+func_merge_dt &lt;- function(len){
+    dt_temp &lt;- func_xml_work(len)
+    dt_comb &lt;- bind_rows(dt_temp)
+    #print(nrow(dt_temp))
+    return(dt_comb)
+}
+
+dt_comb &lt;-map_dfr(1:length(list_files),func_merge_dt)</code></pre>
+</div>
+<div id="data-munging" class="section level2">
+<h2>Data munging</h2>
+<p>Finally we have the all the xmls loaded and saved as one data frame. Let the games begin.
+Concentrate on the topic of the day, MPESA receipts. Good thing their is a variable <code>address</code> which makes this easier, filter data-set by MPESA.</p>
+<p>I need to anonymise the receipts, leaving it with no personal identification information. Turn all names, amounts and phone numbers to XXX.</p>
+<p>My preference is using <code>stringr</code> suite of functions because they are easy to manipulate strings. The name of the functions are even easier to remember. I tend to use a lot of regex for the data extraction.</p>
+<pre class="r"><code>dt_mpesa &lt;- dt_comb %&gt;% 
+  filter(address == &quot;MPESA&quot;)
+
+dt_mpesa &lt;- dt_mpesa %&gt;% 
+  distinct(body, .keep_all = TRUE)
+
+##Anonymising the data ----
+
+dt_mpesa$body &lt;- dt_mpesa$body %&gt;% 
+  str_replace_all(&quot;\\+254&quot;,&quot;254&quot;)
+  str_replace(&quot;sent to ([:graph:]|[:space:]){0,} [:digit:]{0,} &quot;, &quot;sent to XXXX &quot;) %&gt;% 
+  str_replace_all(&quot;Ksh([:digit:]|[:punctuation:]){0,}&quot;,&quot;KshXX.XX&quot;) %&gt;% 
+  str_replace(&quot;paid to ([:graph:]|[:space:]|[:digit:]){0,} on &quot;, &quot;paid to XXXX on &quot;) %&gt;% 
+  str_replace_all(&quot;from\\s([:graph:]|[:space:]){0,}\\son&quot;, &quot;from XXXX on&quot;) %&gt;% 
+  str_replace_all(&quot;from([:graph:]|[:space:]){0,}\\son&quot;, &quot;from XXXX on&quot;) %&gt;% 
+  str_replace_all(&quot;kutoka\\s([:graph:]|[:space:]){0,}\\sMnamo  &quot;, &quot;kutoka XXXX Mnamo  &quot;) %&gt;% 
+  str_replace_all(&quot;from\\s([:graph:]|[:space:]){0,}\\sNew\\sM&quot;, &quot;from XXXX New M&quot;) %&gt;% 
+  str_replace(&quot;airtime for ([:digit:]){0,} on &quot;, &quot;airtime for XXXX on &quot;) %&gt;% 
+  str_replace_all(&quot;cash\\sto\\s([:graph:]|[:space:]){0,}\\sNew\\sM&quot;, &quot;cash to XXXX New M&quot;)</code></pre>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory data analysis</h2>
+<p>First we load the anonymized data which I have made public. Then get our hands dirty with the grease.</p>
+<p>Reduce the variables to just what we need</p>
+<pre class="r"><code>dt_mpesa &lt;- read.xlsx(&quot;mpesa_trans.xlsx&quot;)
+#dt_mpesa &lt;- read.xlsx(&quot;../Rtest/Mpesa/mpesa_trans.xlsx&quot;)
+
+#colnames(dt_mpesa)
+
+dt_mpesa &lt;- dt_mpesa %&gt;% 
+  select(c(&quot;address&quot;,&quot;date&quot;,&quot;body&quot;,&quot;readable_date&quot;))
+
+colnames(dt_mpesa)</code></pre>
+<pre><code>## [1] &quot;address&quot;       &quot;date&quot;          &quot;body&quot;          &quot;readable_date&quot;</code></pre>
+<p>Check randomly 5 cases/rows in the data-set. To have an idea of what we are working with.
+I will convert the data frame to a tibble, tibble have a nice format when shown in a markdown</p>
+<pre class="r"><code>dt_mpesa &lt;- as_tibble(dt_mpesa)
+sample_n(dt_mpesa, 5) %&gt;% 
+  knitr::kable(&quot;html&quot;)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+address
+</th>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+body
+</th>
+<th style="text-align:left;">
+readable_date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1361184485500
+</td>
+<td style="text-align:left;">
+DD99LT293 Confirmed.
+You have received KshXX.XX from XXXX on Mshwari
+</td>
+<td style="text-align:left;">
+Feb 18, 2013 1:48:05 PM
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1386241754526
+</td>
+<td style="text-align:left;">
+EI09IA951 Confirmed. KshXX.XX sent to XXXX on 5/12/13 at 2:09 PM New M-PESA balance is KshXX.XXPIN YAKO SIRI YAKO
+</td>
+<td style="text-align:left;">
+Dec 5, 2013 2:09:14 PM
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1367036122144
+</td>
+<td style="text-align:left;">
+DK27TE475 confirmed. You bought KshXX.XX of airtime for XXXX on 27/4/13 at 7:15 AM
+New M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Apr 27, 2013 7:15:22 AM
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1547216928551
+</td>
+<td style="text-align:left;">
+NAB44F1WM0 Confirmed. KshXX.XX sent to XXXX on 11/1/19 at 5:28 PM. New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX
+</td>
+<td style="text-align:left;">
+11 Jan 2019 17:28:48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1562418239686
+</td>
+<td style="text-align:left;">
+NG653IM9G7 Confirmed. KshXX.XX sent to XXXX on 6/7/19 at 4:03 PM. New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX To reverse, forward this message to 456.
+</td>
+<td style="text-align:left;">
+6 Jul 2019 16:03:59
+</td>
+</tr>
+</tbody>
+</table>
+<p>We some data mining is needed to extract values from the string in <code>body</code>. Just have the right tool here for this and for me it is <code>stringr</code>.
+What we are aiming for:</p>
+<ol style="list-style-type: lower-roman">
+<li>Pick date</li>
+<li>Pick receipt number</li>
+</ol>
+<p><code>stringr</code> function <code>str_extract</code> will be our favorite out of the box tool. For extracting the values. After which we shall filter down the data to only actual receipt numbers.</p>
+<pre class="r"><code>dt_mpesa[&quot;receipt_no&quot;] &lt;- dt_mpesa$body %&gt;% str_extract(&quot;\\w+&quot;)
+dt_mpesa[&quot;receipt_dig2&quot;] &lt;- dt_mpesa$receipt_no %&gt;% str_extract(&quot;[A-Z]{0,2}&quot;)
+dt_mpesa[&quot;act_date&quot;] &lt;- dt_mpesa$body %&gt;% str_extract(&quot;[0-9]{1,2}\\/[0-9]{1,2}\\/[0-9]{1,2}&quot;)
+dt_mpesa[&quot;year&quot;] &lt;- dt_mpesa$readable_date %&gt;% str_extract(&quot;[0-9][0-9][0-9][0-9]&quot;) 
+
+dt_mpesa$act_date &lt;- dt_mpesa$act_date %&gt;% dmy()
+
+dt_mpesa &lt;- dt_mpesa %&gt;% 
+  filter(!(receipt_no %in% c(&quot;Failed&quot;,&quot;Transaction&quot;,&quot;You&quot;,&quot;Your&quot;,&quot;To&quot;,&quot;BRIAN&quot;,&quot;An&quot;)))
+
+dt_mpesa &lt;- dt_mpesa %&gt;% 
+  filter(!is.na(month(dt_mpesa$act_date)))
+
+
+dt_mpesa &lt;- dt_mpesa[nchar(dt_mpesa$receipt_dig2) == 2,]
+dt_mpesa[&quot;receipt_dig1&quot;] &lt;- substr(dt_mpesa$receipt_dig2,1,1)
+
+sample_n(dt_mpesa, 5) %&gt;% 
+  knitr::kable(&quot;html&quot;)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+address
+</th>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+body
+</th>
+<th style="text-align:left;">
+readable_date
+</th>
+<th style="text-align:left;">
+receipt_no
+</th>
+<th style="text-align:left;">
+receipt_dig2
+</th>
+<th style="text-align:left;">
+act_date
+</th>
+<th style="text-align:left;">
+year
+</th>
+<th style="text-align:left;">
+receipt_dig1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1425371759269
+</td>
+<td style="text-align:left;">
+GO58QW074 Confirmed. You have transferred KshXX.XX from XXXX on 3/3/15 at 11:13 AM. M-Shwari balance is KshXX.XX M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Mar 3, 2015 11:35:59 AM
+</td>
+<td style="text-align:left;">
+GO58QW074
+</td>
+<td style="text-align:left;">
+GO
+</td>
+<td style="text-align:left;">
+2015-03-03
+</td>
+<td style="text-align:left;">
+2015
+</td>
+<td style="text-align:left;">
+G
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1389112895342
+</td>
+<td style="text-align:left;">
+EL96PZ468 Confirmed. KshXX.XX sent to XXXX on 7/1/14 at 7:40 PM New M-PESA balance is KshXX.XXPIN YAKO SIRI YAKO
+</td>
+<td style="text-align:left;">
+Jan 7, 2014 7:41:35 PM
+</td>
+<td style="text-align:left;">
+EL96PZ468
+</td>
+<td style="text-align:left;">
+EL
+</td>
+<td style="text-align:left;">
+2014-01-07
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+E
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1538678620181
+</td>
+<td style="text-align:left;">
+MJ43270QFX Confirmed. KshXX.XX sent to XXXX for account xxxx on 4/10/18 at 9:43 PM New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX
+</td>
+<td style="text-align:left;">
+4 Oct 2018 21:43:40
+</td>
+<td style="text-align:left;">
+MJ43270QFX
+</td>
+<td style="text-align:left;">
+MJ
+</td>
+<td style="text-align:left;">
+2018-10-04
+</td>
+<td style="text-align:left;">
+2018
+</td>
+<td style="text-align:left;">
+M
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1370673743854
+</td>
+<td style="text-align:left;">
+DO40FO664 Confirmed. You have transferred KshXX.XX from XXXX on 8/6/13 at 9:42 AM. M-Shwari balance is KshXX.XX M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Jun 8, 2013 9:42:23 AM
+</td>
+<td style="text-align:left;">
+DO40FO664
+</td>
+<td style="text-align:left;">
+DO
+</td>
+<td style="text-align:left;">
+2013-06-08
+</td>
+<td style="text-align:left;">
+2013
+</td>
+<td style="text-align:left;">
+D
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1415251968279
+</td>
+<td style="text-align:left;">
+FX87XD183 confirmed. You bought KshXX.XX of airtime for XXXX on 6/11/14 at 8:17 AM
+New M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Nov 6, 2014 8:32:48 AM
+</td>
+<td style="text-align:left;">
+FX87XD183
+</td>
+<td style="text-align:left;">
+FX
+</td>
+<td style="text-align:left;">
+2014-11-06
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+F
+</td>
+</tr>
+</tbody>
+</table>
+<p>Now we have our data arranged in formats we would like. Let us see what we can deduce from the data</p>
+<pre class="r"><code>count(dt_mpesa, year) %&gt;% 
+  knitr::kable(&quot;markdown&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">year</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2012</td>
+<td align="right">59</td>
+</tr>
+<tr class="even">
+<td align="left">2013</td>
+<td align="right">371</td>
+</tr>
+<tr class="odd">
+<td align="left">2014</td>
+<td align="right">559</td>
+</tr>
+<tr class="even">
+<td align="left">2015</td>
+<td align="right">193</td>
+</tr>
+<tr class="odd">
+<td align="left">2017</td>
+<td align="right">128</td>
+</tr>
+<tr class="even">
+<td align="left">2018</td>
+<td align="right">340</td>
+</tr>
+<tr class="odd">
+<td align="left">2019</td>
+<td align="right">409</td>
+</tr>
+<tr class="even">
+<td align="left">2020</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ggplot(dt_mpesa, aes(x = year)) +  
+  geom_bar(colour = &quot;green&quot;) +
+    geom_text(aes(label = ..count..), stat = &quot;count&quot;,
+            vjust = 1.5, colour = &quot;white&quot;) + 
+  ylab(&quot;Number of transactions&quot;) + 
+  ggtitle(&quot;Frequency of Transactions&quot;, &quot;Oct 2012 - Jan 2020&quot;)</code></pre>
+<p><img src="/post/2020-05-15-mpesa_receipt_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The first letter is the year. Let us test that.</p>
+<pre class="r"><code>dt_mpesa %&gt;% 
+  group_by(year) %&gt;% 
+  count(first_letter = receipt_dig1) %&gt;% 
+  knitr::kable(&quot;markdown&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">year</th>
+<th align="left">first_letter</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2012</td>
+<td align="left">C</td>
+<td align="right">59</td>
+</tr>
+<tr class="even">
+<td align="left">2013</td>
+<td align="left">C</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">2013</td>
+<td align="left">D</td>
+<td align="right">234</td>
+</tr>
+<tr class="even">
+<td align="left">2013</td>
+<td align="left">E</td>
+<td align="right">133</td>
+</tr>
+<tr class="odd">
+<td align="left">2014</td>
+<td align="left">E</td>
+<td align="right">118</td>
+</tr>
+<tr class="even">
+<td align="left">2014</td>
+<td align="left">F</td>
+<td align="right">372</td>
+</tr>
+<tr class="odd">
+<td align="left">2014</td>
+<td align="left">G</td>
+<td align="right">69</td>
+</tr>
+<tr class="even">
+<td align="left">2015</td>
+<td align="left">G</td>
+<td align="right">154</td>
+</tr>
+<tr class="odd">
+<td align="left">2015</td>
+<td align="left">J</td>
+<td align="right">39</td>
+</tr>
+<tr class="even">
+<td align="left">2017</td>
+<td align="left">L</td>
+<td align="right">128</td>
+</tr>
+<tr class="odd">
+<td align="left">2018</td>
+<td align="left">M</td>
+<td align="right">340</td>
+</tr>
+<tr class="even">
+<td align="left">2019</td>
+<td align="left">N</td>
+<td align="right">409</td>
+</tr>
+<tr class="odd">
+<td align="left">2020</td>
+<td align="left">O</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>dt_mpesa &lt;- dt_mpesa %&gt;% ungroup()
+
+ggplot(dt_mpesa, aes(x = year, y = receipt_dig1)) +
+  geom_segment(aes(yend = receipt_dig1), xend = 0, colour = &quot;grey50&quot;) + 
+  geom_point(colour = &quot;green&quot;, size = 5) + 
+  theme_bw() + 
+  theme(
+    panel.grid.major.y = element_blank()
+  ) + 
+  ylab(&quot;First Letter in Receipt Number&quot;) + 
+  ggtitle(&quot;Year vs First Letter&quot;,&quot;Which first letters are in every year&quot;)</code></pre>
+<p><img src="/post/2020-05-15-mpesa_receipt_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>The second letter stands for the month. Is that the case let us see.</p>
+<pre class="r"><code>dt_mpesa %&gt;% 
+  group_by(year,month = month(act_date)) %&gt;% 
+  count(two_digit = receipt_dig2) %&gt;% 
+  as_tibble() %&gt;% 
+  sample_n(5) %&gt;% 
+  knitr::kable(&quot;markdown&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">year</th>
+<th align="right">month</th>
+<th align="left">two_digit</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2019</td>
+<td align="right">9</td>
+<td align="left">NI</td>
+<td align="right">32</td>
+</tr>
+<tr class="even">
+<td align="left">2015</td>
+<td align="right">2</td>
+<td align="left">GO</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">2014</td>
+<td align="right">12</td>
+<td align="left">GE</td>
+<td align="right">23</td>
+</tr>
+<tr class="even">
+<td align="left">2013</td>
+<td align="right">8</td>
+<td align="left">DX</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">2013</td>
+<td align="right">11</td>
+<td align="left">EE</td>
+<td align="right">16</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>dt_mpesa &lt;- dt_mpesa %&gt;% ungroup()</code></pre>
+</div>
+<div id="work-in-progress" class="section level2">
+<h2>Work in progress</h2>
+</div>

@@ -1,0 +1,39 @@
+---
+title: "Reading Book Collection"
+author: "Brian"
+date: ""
+description: "List of books"
+tags: ["Books"]
+---
+
+```{r echo=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Beeing somewhat an avid reader, I usually get queries on books I can suggest to people for them to read.
+
+So I would recommend and eventually realised most of what I recommend I need to track them. So the simple table below contains titles I have read. Not a comprehensive list though and it has more than enough.
+
+I will try to update as much as possible.
+
+
+```{r, echo=FALSE, warning=FALSE, message = FALSE}
+library(data.table)
+library(readr)
+library(readxl)
+library(DT)
+library(dplyr)
+
+dt <- read_xlsx("My Book Library.xlsx", sheet = "Library")
+dt$Date <- as.Date(dt$Date)
+dt <- arrange(dt, desc(Date))
+```
+
+
+
+```{r pressure, echo=FALSE, warning=FALSE}
+datatable(dt, filter = 'top', options = list(
+  pageLength = 10, autoWidth = TRUE
+))
+```
