@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Online Read on Galaxy of Thoughts</title>
+    <link>/tags/online-read/</link>
+    <description>Recent content in Online Read on Galaxy of Thoughts</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright notice</copyright>
+    <lastBuildDate>Thu, 14 May 2020 02:01:58 +0530</lastBuildDate>
+    
+	<atom:link href="/tags/online-read/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Collection of Free online Materials</title>
+      <link>/online_links/</link>
+      <pubDate>Thu, 14 May 2020 02:01:58 +0530</pubDate>
+      
+      <guid>/online_links/</guid>
+      <description>Collection of online links that I find usefull and I need to remember
+Caveat : Limited to my interest and frequent reads
+Disclaimer: Not promotional or marketing of any sorts
+R Online BooksR for Data ScienceHappy Git with RAdvanced RMastering Shiny though still under reviewBlog using R once you start road of down, I would advice starting with the RMarkdown which will take you down the rabbit hole to BookdownPython Online BooksPython Data Science HandbookCommand line Online BooksData Science at the Command LineOther content/Interesting blog onlineLearn R and Python in Parallel Another Book on Data Science though still under review</description>
+    </item>
+    
+  </channel>
+</rss>
