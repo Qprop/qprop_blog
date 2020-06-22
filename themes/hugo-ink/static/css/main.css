@@ -112,6 +112,19 @@ blockquote {
     padding-left: 20px;
 }
 
+.r {
+	  background-color: #d3f3f5;
+    margin-left: 1rem;
+    font-style: italic;
+    font-size: 1rem;
+    font-family: Georgia,bitstream charter,serif;
+    border-left: 0px solid;
+    border-color: #81f0e5;
+    padding-left: 30px;
+}
+
+
+
 blockquote cite {
     font-size: 70%;
     opacity: .8;

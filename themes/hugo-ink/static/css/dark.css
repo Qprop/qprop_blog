@@ -69,3 +69,9 @@ html.dark .footer {
 html.dark .highlight {
   background-color: #333;
 }
+
+
+html.dark .r {
+  background-color: #0e06ba;
+  color: #fff;
+}
