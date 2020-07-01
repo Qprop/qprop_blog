@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
-    <lastBuildDate>Fri, 19 Jun 2020 02:01:58 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2020 02:01:58 +0530</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Random</title>
+      <link>/tags/random/</link>
+      <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
+      
+      <guid>/tags/random/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>World</title>
+      <link>/tags/world/</link>
+      <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
+      
+      <guid>/tags/world/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Book Review</title>
@@ -58,29 +76,11 @@
     </item>
     
     <item>
-      <title>Random</title>
-      <link>/tags/random/</link>
-      <pubDate>Tue, 28 Apr 2020 02:01:58 +0530</pubDate>
-      
-      <guid>/tags/random/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Book</title>
       <link>/tags/book/</link>
       <pubDate>Mon, 30 Mar 2020 02:01:58 +0530</pubDate>
       
       <guid>/tags/book/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>World</title>
-      <link>/tags/world/</link>
-      <pubDate>Sun, 15 Mar 2020 02:01:58 +0530</pubDate>
-      
-      <guid>/tags/world/</guid>
       <description></description>
     </item>
     

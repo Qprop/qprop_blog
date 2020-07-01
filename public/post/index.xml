@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
-    <lastBuildDate>Fri, 19 Jun 2020 02:01:58 +0530</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2020 02:01:58 +0530</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Forecasting Dilemma | Catching Black Swan events</title>
+      <link>/post/2020-07-01-forecast_prob/</link>
+      <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
+      
+      <guid>/post/2020-07-01-forecast_prob/</guid>
+      <description>Week 27 of the year 2020, a year that will be etched in the minds of so many. History will have a place marker for this year. Events have been happening left right and center, throwing the world into a foray of mixed emotions and reactions. From the forests fires in Australia at the beginning of the year taking months to quench out, to the new health crisis of Covid-19.</description>
+    </item>
     
     <item>
       <title>American Dirt - Jeanine Cummins</title>
