@@ -10,7 +10,7 @@ tags: ["Random", "World"]
 Week 27 of the year 2020, a year that will be etched in the minds of so many. History will have a place marker for this year. Events have been happening left right and center, throwing the world into a foray of mixed emotions and reactions. From the forests fires in Australia at the beginning of the year taking months to quench out, to the new health crisis of Covid-19.
 
 
-seating from an analysts arm chair, questions linger on whether there was any forecasting model that would capture such extreme 'black swan' events. For most of us who deal with forecasting and prediction modeling, the test has been one gruesome one.
+seating from an analysts arm chair, questions linger on whether there was any forecasting model that would capture such extreme 'black swan' events. For most of us who deal with forecasting and prediction modeling, the test has been gruesome one.
 Am sure all models did not capture any blimp in trend, a downward free fall spiral. All the forecasting modeling  available using time series analysis concepts like `ARIMA` et al, would not conceive such. There is a feeling this would have been left to the prophets, to prophecy.
 
 Does this mean we need new techniques to capture such steep shifts and movements that are unforeseen? Time series mainly folds under the umbrella of trends and seasonality. What now if we need to capture the an expected when the small probability of 0.01 happens, the chance that we place as a security when all our bets do not pave out as we anticipated. 
@@ -22,7 +22,7 @@ As I think how do we now forecast for the future, I do not have the answers. My 
 
 
 Is forecasting now an art from what we thought as a science. The abstractness, randomness of events can we model them and if yes are the current models relevant? Do we improve prior models or come up with new ones.
-We talk a lot about machine learning and artificial intelligence, remember this systems need to be feed learning information or data. Like trained sniffer dogs, they need fast a sample. For the current event they might never have captured it, but now there is opportunity to train this models for `black swarn` events.
+We talk a lot about machine learning and artificial intelligence, remember this systems need to be feed learning information or data. Like trained sniffer dogs, they need first a sample. For the current event they might never have captured it, but now there is opportunity to train this models for `black swarn` events.
 
 
 
@@ -30,4 +30,4 @@ I look into the future with positive prospects like never before, we thought we 
 Yes, the future shines on with new frontiers.
 
 
-
+>> **Conspiracy**: What if when we saw the first images of the [black hole](https://www.jpl.nasa.gov/edu/news/2019/4/19/how-scientists-captured-the-first-image-of-a-black-hole/) last year it openned up this quagmire of `black swan` event? Just what if
