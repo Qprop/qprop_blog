@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
-    <lastBuildDate>Wed, 01 Jul 2020 02:01:58 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 02:01:58 +0530</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Educated - Tara Westover</title>
+      <link>/post/2020-07-31-educated/</link>
+      <pubDate>Fri, 31 Jul 2020 02:01:58 +0530</pubDate>
+      
+      <guid>/post/2020-07-31-educated/</guid>
+      <description>Biography
+  Tara memoir through her life, family, religion and education. Being brought up in a extremist Mormon family, I think extremist here is an over kill it is more of survivalist Mormon family. I got to understand Mormon culture, religion and beliefs through her eye lenses.
+Reading her experience being raised, with belief of home remedy and herbs to treat all ailments. No hospital or doctors, avoiding government services as much as they could, including school.</description>
+    </item>
     
     <item>
       <title>Forecasting Dilemma | Catching Black Swan events</title>
@@ -71,7 +82,7 @@ Thrilling fiction of a young girl Tina. Set out to revenge for the murder of her
 Though bookmarks work well for browsers but hey I cannot share that to others.
 Caveat : Limited to my interest and frequent reads
 Disclaimer: Not promotional or marketing of any sorts
-R Online BooksR for Data ScienceHappy Git with RAdvanced RMastering Shiny though still under reviewBlog using R once you start road of down, I would advice starting with the RMarkdown which will take you down the rabbit hole to BookdownR CookbookR Graphics CookbookPython Online BooksPython Data Science HandbookCommand line Online BooksData Science at the Command LineOther content/Interesting blog onlineLearn R and Python in Parallel Another Book on Data Science though still under review</description>
+R Online BooksR for Data ScienceHappy Git with RAdvanced RMastering Shiny though still under reviewBlog using R once you start road of down, I would advice starting with the RMarkdown which will take you down the rabbit hole to BookdownR CookbookR Graphics CookbookWhat They Forgot to Teach You About RPython Online BooksPython Data Science HandbookCommand line Online BooksData Science at the Command LineOther content/Interesting blog onlineLearn R and Python in Parallel Another Book on Data Science though still under review</description>
     </item>
     
     <item>
