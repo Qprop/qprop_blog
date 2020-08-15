@@ -22,7 +22,7 @@ As I think how do we now forecast for the future, I do not have the answers. My 
 
 
 Is forecasting now an art from what we thought as a science. The abstractness, randomness of events can we model them and if yes are the current models relevant? Do we improve prior models or come up with new ones.
-We talk a lot about machine learning and artificial intelligence, remember this systems need to be feed learning information or data. Like trained sniffer dogs, they need first a sample. For the current event they might never have captured it, but now there is opportunity to train this models for `black swarn` events.
+We talk a lot about machine learning and artificial intelligence, remember this systems need to be feed learning information or data. Like trained sniffer dogs, they need first a sample. For the current event they might never have captured it, but now there is opportunity to train this models for `black swan` events.
 
 
 
