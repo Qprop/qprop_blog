@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
-    <lastBuildDate>Wed, 12 Aug 2020 07:01:58 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 18 Sep 2020 07:01:58 +0530</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,9 +15,18 @@
     <item>
       <title>Other</title>
       <link>/tags/other/</link>
-      <pubDate>Wed, 12 Aug 2020 07:01:58 +0530</pubDate>
+      <pubDate>Fri, 18 Sep 2020 07:01:58 +0530</pubDate>
       
       <guid>/tags/other/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Random</title>
+      <link>/tags/random/</link>
+      <pubDate>Fri, 18 Sep 2020 07:01:58 +0530</pubDate>
+      
+      <guid>/tags/random/</guid>
       <description></description>
     </item>
     
@@ -36,15 +45,6 @@
       <pubDate>Fri, 31 Jul 2020 02:01:58 +0530</pubDate>
       
       <guid>/tags/reading-list/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Random</title>
-      <link>/tags/random/</link>
-      <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
-      
-      <guid>/tags/random/</guid>
       <description></description>
     </item>
     
