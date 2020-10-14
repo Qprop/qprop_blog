@@ -14,4 +14,4 @@ I have been fiddling about the idea of a blog. Nothing fancy just my own space w
 
 This queer is not the vile one but the ones that transgress when you having conversation with someone and your mind wonders away to the concept of breathing and how natural that comes. How the being is able to be alive with the dependency on non inert gas, with reflex of the organs and involuntary action of muscles causing the lungs to push out and in.
 
-
+If you want to understand more about me, here is my [CV](cv.html)
