@@ -7,7 +7,7 @@
 <meta itemprop="description" content="Simple Regular Expression Tutorials">
 <meta itemprop="datePublished" content="2019-04-09T02:01:58&#43;05:30" />
 <meta itemprop="dateModified" content="2019-04-09T02:01:58&#43;05:30" />
-<meta itemprop="wordCount" content="687">
+<meta itemprop="wordCount" content="677">
 
 
 
@@ -90,6 +90,7 @@
 					
 			<div class="markdown">
 				
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <hr />
@@ -148,9 +149,8 @@ grep(&quot;at&quot;,ex_text, value = TRUE)</code></pre>
 <p>Am a proponent of <a href="http://https://www.tidyverse.org">Tidyverse</a> packages, this are the likes of <em>tidyr, dplyr, stringr etc</em></p>
 <hr />
 <p>One of my favourite stingr manipulation library is <a href="https://stringr.tidyverse.org/">stringr</a>, it has easy understanding of syntax. Let use the example we had previously</p>
-<pre class="r"><code>library(stringr)</code></pre>
-<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.6.3</code></pre>
-<pre class="r"><code>ex_text &lt;- c(&quot;The&quot;,&quot;fat&quot;,&quot;cat&quot;,&quot;sat on the mat&quot;)
+<pre class="r"><code>library(stringr)
+ex_text &lt;- c(&quot;The&quot;,&quot;fat&quot;,&quot;cat&quot;,&quot;sat on the mat&quot;)
 str_detect(ex_text,&quot;at&quot;)</code></pre>
 <pre><code>## [1] FALSE  TRUE  TRUE  TRUE</code></pre>
 <pre class="r"><code>ex_text[str_detect(ex_text,&quot;at&quot;)]</code></pre>

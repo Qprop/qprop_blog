@@ -1,7 +1,7 @@
 ---
 title: "Ningependa kukupa"
 date: 2020-10-22T07:01:58+05:30
-description: "Ningependa kukupa Mercedes lakini bado sijapata Bahati."
+description: "Ningependa kukupa Mercedes lakini bado sijapata Bahati"
 tags: ["Other", "Swahili"]
 draft: false
 ---
