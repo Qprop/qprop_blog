@@ -15,9 +15,9 @@ draft: false
 
 > Ningependa tuoneshane mapenzi yetu tele kwa Telly but wacha kwanza tukeep up with the [Muraya's](https://www.youtube.com/channel/UCVaazwI9UY5YG8BHgg2e7og)
 
-> Ningependa kukupenda namatendo na zawadi kama navyo ona wengine wakifanya, lakini kwa sasa hakikisho langu ni kwamba mapenzi niko nayo kwako ni ya thati
+> Ningependa kukupenda kwa matendo na zawadi kama navyo ona wengine wakifanya, lakini kwa sasa hakikisho langu ni kwamba mapenzi niko nayo kwako ni ya thati
 
-> Ningependa kuandikia nyimbo na jina la nyimbo liwe lako, lakini niliambiwa sauti yangu haiwezi toa nyoka pangoni chenye inaweza fanya ni kutishia watoto wadogo mtaani watoroke hapa Pangani
+> Ningependa kuandikia nyimbo na jina la nyimbo liwe lako, lakini niliambiwa sauti yangu haiwezi toa nyoka pangoni, labda kitu inaweza fanya ni kutishia watoto wadogo mtaani watoroke hapa Pangani
 
 > Mawazo yangu nimakuu lakini bado vitendo ni vitendawili
 
@@ -25,7 +25,7 @@ draft: false
 
 > Jana ulinipa block kwa vile sikutuma fare lakini I swear fuliza walikuwa wamenifukuza, Mshwari waliniblue tick last year mambo si shwari 
 
-> Uwezo yangu bado tu iko kwa ndoto, inaniwasha kwenye koo kama moto
+> Uwezo wangu bado tu iko kwa ndoto, inaniwasha kwenye koo kama moto
 
 >> Ni mimi wako mpenzi bila hela ila natumai unanielewa,
 Msani bila sanaa
