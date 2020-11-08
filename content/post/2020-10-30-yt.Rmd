@@ -56,6 +56,9 @@ As always there is something to find out from the data, he seems to have done a 
 Data was downloaded from youtube API on `2020-10-30`, since this is youtube and it is prone to changing.
 
 
+<details>
+  <summary>code</summary>
+
 ```{r}
 
 #search_yt <- yt_search("Abel Mutua")
@@ -63,18 +66,32 @@ Data was downloaded from youtube API on `2020-10-30`, since this is youtube and 
 #write_rds(search_yt, "search_yt")
 search_yt <- read_rds("search_yt")
 
-DT::datatable(search_yt[,1:5], rownames = FALSE)
+tab5 <- DT::datatable(search_yt[,1:5], rownames = FALSE)
 
 
 ```
+
+</details>
+
+```{r echo=FALSE, include=TRUE}
+
+tab5
+
+```
+
 
 I have noticed some of the videos do not have titles that bear his name, but that is not the main reason we are doing this. Now the top channel looks like his channel and we have the channel ID. `r search_yt %>% count(channelId, channelTitle, sort = TRUE) %>% top_n(1)` . 
 
 Though we could just have picked the channel ID from youtube directly copy and paste from the website. SO much for automation if you do this.
 
+
+
+<details>
+  <summary>code</summary>
+
 ```{r}
 
-search_yt %>% 
+tab4 <- search_yt %>% 
   count(channelId, channelTitle, sort = TRUE) %>% 
   top_n(n = 10) %>% 
   DT::datatable()
@@ -82,12 +99,23 @@ search_yt %>%
 
 ```
 
+</details>
+
+
+```{r echo=FALSE, include=TRUE}
+
+tab4
+
+```
 
 NOw we read the channel statistics, pretty much now he has like 51 videos as of working this article.
 
 I have commented out the reading the stats from the channel, trying to save on youtubes api usage.
 
 ### Channel statistics
+
+<details>
+  <summary>code</summary>
 
 
 ```{r}
@@ -99,6 +127,8 @@ I have commented out the reading the stats from the channel, trying to save on y
 stats_yt <- read_rds("stats_yt")
 
 ```
+
+</details>
 
 As per this article below statistics:
 
@@ -116,6 +146,7 @@ The views is within the period of **1<sup>st</sup>** video and the **51<sup>st</
 ## Indiviudal Video Information
 
 Lets dig deeper into what we can get from the individual aggregated videos.
+
 
 ```{r, echo=FALSE}
 
@@ -142,6 +173,8 @@ chan_stats <- read_rds("chan_stats")
 
 
 
+<details>
+  <summary>code</summary>
 
 
 ```{r}
@@ -172,11 +205,21 @@ dt <- dt %>%
          likeCount = as.numeric(likeCount)) %>% 
   arrange(year_month)
   
-DT::datatable(dt,options = list(
+tab3 <- DT::datatable(dt,options = list(
   columnDefs = list(list(className = 'dt-center', targets = 5)),
   pageLength = 5,
   lengthMenu = c(5, 10, 15, 20)
 ))
+
+```
+
+
+</details>
+
+
+```{r echo=FALSE, include=TRUE}
+
+tab3
 
 ```
 
@@ -185,7 +228,11 @@ DT::datatable(dt,options = list(
 
 Noticed that 4 videos were uploaded on the same day `May 9th`. Adjusting this to 4 consecutive days.
 
-```{r, echo=FALSE}
+
+<details>
+  <summary>code</summary>
+
+```{r, echo=TRUE}
 dt <- dt %>% 
   mutate(year_month =  case_when(id == "5RMUqZBxP48" ~ "2020-05-10",
             id == "a5XEyTBMXfA" ~ "2020-05-11",
@@ -206,8 +253,13 @@ dt <- dt %>%
 
 ```
 
+</details>
 
 Top three most watched videos
+
+
+<details>
+  <summary>code</summary>
 
 ```{r}
 
@@ -218,6 +270,7 @@ dt_top_3 <- dt %>%
   mutate(title = str_replace(title, "\\(", "\\\n("))
 ```
 
+</details>
 
 1. `r dt_top_3$title[1]`
 1. `r dt_top_3$title[2]`
@@ -227,14 +280,18 @@ dt_top_3 <- dt %>%
 <br>
 
 
-```{r echo=FALSE, fig.height=8, fig.width=12, warning=FALSE}
+<details>
+  <summary>code</summary>
+
+
+```{r echo=TRUE, fig.height=8, fig.width=12, warning=FALSE}
 
 dt_avg <- dt %>% 
   summarise(avg_viewcount = mean(viewCount),
             avg_likecount = mean(likeCount),
             avg_dislikecount = mean(dislikeCount))
 
-dt %>% ggplot(aes(x = year_month)) +
+plot2 <- dt %>% ggplot(aes(x = year_month)) +
   geom_line(aes(y = viewCount, color = show, fill = show), size = 0.8, alpha = 0.4) + 
   geom_point(aes(y = viewCount, color = show, fill = show), size = 5) +
   scale_x_date("\nDate",date_labels = "%b %d", date_minor_breaks = "1 days") + 
@@ -250,11 +307,23 @@ dt %>% ggplot(aes(x = year_month)) +
 
 ```
 
+</details>
+
+```{r echo=FALSE, fig.height=8, fig.width=12, warning=FALSE}
+
+plot2
+
+```
+
 Am interested in the average watch rates for the three shows.
+
+
+<details>
+  <summary>code</summary>
 
 ```{r, warning=FALSE}
 
-dt %>% 
+tab1 <- dt %>% 
   group_by(show) %>% 
   summarise(avg_countview = number(mean(viewCount), big.mark = ","),
             min_countview = number(min(viewCount), big.mark = ","),
@@ -266,13 +335,26 @@ dt %>%
 
 ```
 
+</details>
+
+```{r, echo=FALSE, warning=FALSE}
+
+tab1
+
+```
+
 `Young & Stupid` performs well with a small range with 25<sup>th</sup>% and 75<sup>th</sup>% is very small.
 Also contains high outliers.
+
+
+
+<details>
+  <summary>code</summary>
 
 ```{r, warning=FALSE}
 
 
-dt %>% 
+plot1 <- dt %>% 
   ggplot() + 
   geom_boxplot(aes(y = viewCount, color = show, fill = show)) + 
   theme_ipsum(grid = "y") + 
@@ -283,6 +365,12 @@ dt %>%
 
 ```
 
+</details>
+
+```{r echo=FALSE, warning=FALSE}
+
+plot1
+```
 
 ### Next steps working on comment on network interaction
 
