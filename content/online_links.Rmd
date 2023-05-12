@@ -23,6 +23,7 @@ Though bookmarks work well for browsers but hey I cannot share that to others.
 * [Blog using R](https://bookdown.org/yihui/blogdown/) once you start road of down, I would advice starting with the [RMarkdown](https://bookdown.org/yihui/rmarkdown) which will take you down the rabbit hole to [Bookdown](https://bookdown.org/yihui/bookdown/)
 * [R Cookbook](https://rc2e.com/)
 * [R Graphics Cookbook](https://r-graphics.org/)
+* [What They Forgot to Teach You About R](https://rstats.wtf/)
 
 ## Python Online Books
 

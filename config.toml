@@ -65,7 +65,7 @@ weight = 6
 [[params.social]]
 name = "Github"
 icon = "github"
-url = "https://github.com/Qprop/Galaxy-of-Thoughts"
+url = "https://github.com/Qprop"
 
 [[params.social]]
 name = "Twitter"
@@ -81,3 +81,8 @@ url = "https://twitter.com/yobra_qprop"
 [taxonomies]
    tag = "tags"
 
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
