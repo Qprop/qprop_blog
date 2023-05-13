@@ -1,9 +1,8 @@
 ---
 title: "Reading Book Collection"
-author: "Brian"
-date: ""
+date: ''
 description: "List of books"
-tags: ["Books"]
+tags: []
 ---
 
 ```{r echo=FALSE, warning=FALSE}

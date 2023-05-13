@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://www.qprop.me"
 languageCode = "en-us"
 title = "Galaxy of Thoughts"
 theme = "hugo-ink"
@@ -86,3 +86,5 @@ url = "https://twitter.com/yobra_qprop"
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+      
+  
