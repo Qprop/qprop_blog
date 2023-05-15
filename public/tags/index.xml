@@ -2,94 +2,94 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Galaxy of Thoughts</title>
-    <link>/tags/</link>
+    <link>https://www.qprop.me/tags/</link>
     <description>Recent content in Tags on Galaxy of Thoughts</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
     <lastBuildDate>Fri, 31 Jul 2020 02:01:58 +0530</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.qprop.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Book Review</title>
-      <link>/tags/book-review/</link>
+      <link>https://www.qprop.me/tags/book-review/</link>
       <pubDate>Fri, 31 Jul 2020 02:01:58 +0530</pubDate>
       
-      <guid>/tags/book-review/</guid>
+      <guid>https://www.qprop.me/tags/book-review/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Reading List</title>
-      <link>/tags/reading-list/</link>
+      <link>https://www.qprop.me/tags/reading-list/</link>
       <pubDate>Fri, 31 Jul 2020 02:01:58 +0530</pubDate>
       
-      <guid>/tags/reading-list/</guid>
+      <guid>https://www.qprop.me/tags/reading-list/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Random</title>
-      <link>/tags/random/</link>
+      <link>https://www.qprop.me/tags/random/</link>
       <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
       
-      <guid>/tags/random/</guid>
+      <guid>https://www.qprop.me/tags/random/</guid>
       <description></description>
     </item>
     
     <item>
       <title>World</title>
-      <link>/tags/world/</link>
+      <link>https://www.qprop.me/tags/world/</link>
       <pubDate>Wed, 01 Jul 2020 02:01:58 +0530</pubDate>
       
-      <guid>/tags/world/</guid>
+      <guid>https://www.qprop.me/tags/world/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://www.qprop.me/tags/r/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://www.qprop.me/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R-Tutorial</title>
-      <link>/tags/r-tutorial/</link>
+      <link>https://www.qprop.me/tags/r-tutorial/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r-tutorial/</guid>
+      <guid>https://www.qprop.me/tags/r-tutorial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Text Mining</title>
-      <link>/tags/text-mining/</link>
+      <link>https://www.qprop.me/tags/text-mining/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/text-mining/</guid>
+      <guid>https://www.qprop.me/tags/text-mining/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Book</title>
-      <link>/tags/book/</link>
+      <link>https://www.qprop.me/tags/book/</link>
       <pubDate>Mon, 30 Mar 2020 02:01:58 +0530</pubDate>
       
-      <guid>/tags/book/</guid>
+      <guid>https://www.qprop.me/tags/book/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Language</title>
-      <link>/tags/language/</link>
+      <link>https://www.qprop.me/tags/language/</link>
       <pubDate>Tue, 10 Dec 2019 02:01:58 +0530</pubDate>
       
-      <guid>/tags/language/</guid>
+      <guid>https://www.qprop.me/tags/language/</guid>
       <description></description>
     </item>
     
