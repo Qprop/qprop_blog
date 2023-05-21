@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Text Mining on Galaxy of Thoughts</title>
-    <link>https://www.qprop.me/tags/text-mining/</link>
+    <link>/tags/text-mining/</link>
     <description>Recent content in Text Mining on Galaxy of Thoughts</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
     <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.qprop.me/tags/text-mining/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/text-mining/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>MPESA RECEIPT SERIALIZATION</title>
-      <link>https://www.qprop.me/post/2020-05-15-mpesa_receipt/</link>
+      <link>/post/2020-05-15-mpesa_receipt/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.qprop.me/post/2020-05-15-mpesa_receipt/</guid>
+      <guid>/post/2020-05-15-mpesa_receipt/</guid>
       <description>IntroductionThe main purpose of this particular article if I may call it so about a tweet that popped in my thread a few weeks ago.How the largest mobile service provider in Kenya sequentially labels their innovative mobile money receipts. The receipts are usually in SMS (Short Message Service) format, every transaction you make you receive the SMS with receipt details. Details of amount sent, name, mobile number of recipient and balance of your account.</description>
     </item>
     

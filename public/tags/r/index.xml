@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Galaxy of Thoughts</title>
-    <link>https://www.qprop.me/tags/r/</link>
+    <link>/tags/r/</link>
     <description>Recent content in R on Galaxy of Thoughts</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
     <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.qprop.me/tags/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>MPESA RECEIPT SERIALIZATION</title>
-      <link>https://www.qprop.me/post/2020-05-15-mpesa_receipt/</link>
+      <link>/post/2020-05-15-mpesa_receipt/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://www.qprop.me/post/2020-05-15-mpesa_receipt/</guid>
+      <guid>/post/2020-05-15-mpesa_receipt/</guid>
       <description>IntroductionThe main purpose of this particular article if I may call it so about a tweet that popped in my thread a few weeks ago.How the largest mobile service provider in Kenya sequentially labels their innovative mobile money receipts. The receipts are usually in SMS (Short Message Service) format, every transaction you make you receive the SMS with receipt details. Details of amount sent, name, mobile number of recipient and balance of your account.</description>
     </item>
     
     <item>
       <title>Regular Expression Tutorial [Regex]</title>
-      <link>https://www.qprop.me/post/2019-04-09-regex_tutorial/</link>
+      <link>/post/2019-04-09-regex_tutorial/</link>
       <pubDate>Tue, 09 Apr 2019 02:01:58 +0530</pubDate>
       
-      <guid>https://www.qprop.me/post/2019-04-09-regex_tutorial/</guid>
+      <guid>/post/2019-04-09-regex_tutorial/</guid>
       <description>1. IntroductionWhat is Regular Expression a.k.a RegEx , an attempt to define this is at times makes the tool use under explained or overly complicated. Though let me try RegEx in simple terms is a way of handling and manipulating characters in ways different ways while simplifying the effort of the process.
 We use RegEx on a daily basis it is just that we do not know areas where we use are below:</description>
     </item>

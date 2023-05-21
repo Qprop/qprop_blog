@@ -7,27 +7,27 @@
 <meta itemprop="description" content="Examining letter serialization of Mpesa SMS receipts. Do they have a pattern?">
 <meta itemprop="datePublished" content="2020-05-15T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1956">
+<meta itemprop="wordCount" content="1982">
 
 
 
 <meta itemprop="keywords" content="R,R-Tutorial,Text Mining," /><meta property="og:title" content="MPESA RECEIPT SERIALIZATION" />
 <meta property="og:description" content="Examining letter serialization of Mpesa SMS receipts. Do they have a pattern?" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.qprop.me/post/2020-05-15-mpesa_receipt/" />
+<meta property="og:url" content="/post/2020-05-15-mpesa_receipt/" />
 <meta property="article:published_time" content="2020-05-15T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-05-15T00:00:00+00:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MPESA RECEIPT SERIALIZATION"/>
 <meta name="twitter:description" content="Examining letter serialization of Mpesa SMS receipts. Do they have a pattern?"/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" media="screen" href="https://www.qprop.mecss/normalize.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="https://www.qprop.mecss/main.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
 
-        <link id="dark-scheme" rel="stylesheet" type="text/css" href="https://www.qprop.mecss/dark.css" />
+        <link id="dark-scheme" rel="stylesheet" type="text/css" href="/css/dark.css" />
 
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-		<script src="https://www.qprop.mejs/main.js"></script>
+		<script src="/js/main.js"></script>
 </head>
 
 <body>
@@ -35,12 +35,12 @@
 		<div class="header">
 	
 		<div class="avatar">
-			<a href="https://www.qprop.me">
+			<a href="/">
 				<img src="https://avatars2.githubusercontent.com/u/16720534?s=400&amp;u=e0c5f0c18c51229fafba41f2351da3513e4ca602&amp;v=4" alt="Galaxy of Thoughts" />
 			</a>
 		</div>
 	
-	<h1 class="site-title"><a href="https://www.qprop.me">Galaxy of Thoughts</a></h1>
+	<h1 class="site-title"><a href="/">Galaxy of Thoughts</a></h1>
 	<div class="site-description"><p><strong>Mental journies shuttling between utopia, dystopia and bordering paranoia.</strong></p><nav class="nav social">
 			<ul class="flat"><li><a href="https://github.com/Qprop" title="Github"><i data-feather="github"></i></a></li><li><a href="https://twitter.com/yobra_qprop" title="Twitter"><i data-feather="twitter"></i></a></li></ul>
 		</nav><span class="scheme-toggle"><a href="#" id="scheme-toggle"></a></div>
@@ -90,7 +90,6 @@
 					
 			<div class="markdown">
 				
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <hr />
@@ -253,27 +252,13 @@ readable_date
 MPESA
 </td>
 <td style="text-align:left;">
-1559291619535
+1564640485561
 </td>
 <td style="text-align:left;">
-NEV5A35TPD Confirmed.You have received KshXX.XX from XXXX on 31/5/19 at 11:33 AM New M-PESA balance is KshXX.XX To reverse, forward this message to 456.
+NH19MHUI3T Confirmed. KshXX.XX sent to XXXX on 1/8/19 at 9:21 AM New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX
 </td>
 <td style="text-align:left;">
-31 May 2019 11:33:39
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MPESA
-</td>
-<td style="text-align:left;">
-1429983836025
-</td>
-<td style="text-align:left;">
-JDP0ARKFMQ confirmed.You bought KshXX.XX of airtime for XXXX on 25/4/15 at 8:26 PM.New balance is KshXX.XX
-</td>
-<td style="text-align:left;">
-Apr 25, 2015 8:43:56 PM
+1 Aug 2019 09:21:25
 </td>
 </tr>
 <tr>
@@ -281,27 +266,13 @@ Apr 25, 2015 8:43:56 PM
 MPESA
 </td>
 <td style="text-align:left;">
-1376325952069
+1409397470600
 </td>
 <td style="text-align:left;">
-DV11ED624 Confirmed. Transaction DV10ZE192 has been reversed. Your account balance is now 445KshXX.XX
+FO81GR116 Confirmed. KshXX.XX transferred to M-Shwari account on 30/8/14 at 2:02 PM. M-PESA balance is KshXX.XX new M-Shwari account balance is KshXX.XX
 </td>
 <td style="text-align:left;">
-Aug 12, 2013 7:45:52 PM
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MPESA
-</td>
-<td style="text-align:left;">
-1514460440908
-</td>
-<td style="text-align:left;">
-LLS8X3A5SE Confirmed.You have received KshXX.XX from XXXX on 28/12/17 at 2:27 PM New M-PESA balance is KshXX.XX Pay bills via M-PESA.
-</td>
-<td style="text-align:left;">
-28 Dec 2017 14:27:20
+Aug 30, 2014 2:17:50 PM
 </td>
 </tr>
 <tr>
@@ -309,15 +280,41 @@ LLS8X3A5SE Confirmed.You have received KshXX.XX from XXXX on 28/12/17 at 2:27 PM
 MPESA
 </td>
 <td style="text-align:left;">
-1426097068740
+1514190663839
 </td>
 <td style="text-align:left;">
-GP97MN702 Confirmed.
-on 11/3/15 at 8:47 PM
-Give KshXX.XX cash to XXXX New M-PESA balance is KshXX.XXBuy goods with M-PESA.
+LLP1VE50VP confirmed.You bought KshXX.XX of airtime for XXXX on 25/12/17 at 11:30 AM.New balance is KshXX.XX Transaction cost, KshXX.XX
 </td>
 <td style="text-align:left;">
-Mar 11, 2015 9:04:28 PM
+25 Dec 2017 11:31:03
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1374852481246
+</td>
+<td style="text-align:left;">
+DT36YS900 Confirmed. You have transferred KshXX.XX from XXXX on 26/7/13 at 6:27 PM. M-Shwari balance is KshXX.XX M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Jul 26, 2013 6:28:01 PM
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1412513605551
+</td>
+<td style="text-align:left;">
+FT56UF181 Confirmed. You have transferred KshXX.XX from XXXX on 5/10/14 at 3:37 PM. M-Shwari balance is KshXX.XX M-PESA balance is KshXX.XX
+</td>
+<td style="text-align:left;">
+Oct 5, 2014 3:53:25 PM
 </td>
 </tr>
 </tbody>
@@ -386,60 +383,28 @@ receipt_dig1
 MPESA
 </td>
 <td style="text-align:left;">
-1386853612861
+1568194651790
 </td>
 <td style="text-align:left;">
-EI96VG338 Confirmed. You have transferred KshXX.XX from XXXX on 12/12/13 at 4:06 PM. M-Shwari balance is KshXX.XX M-PESA balance is KshXX.XX
+NIB3IIUUMZ confirmed.You bought KshXX.XX of airtime on 11/9/19 at 12:37 PM.New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX To reverse, forward this message to 456.
 </td>
 <td style="text-align:left;">
-Dec 12, 2013 4:06:52 PM
+11 Sep 2019 12:37:31
 </td>
 <td style="text-align:left;">
-EI96VG338
+NIB3IIUUMZ
 </td>
 <td style="text-align:left;">
-EI
+NI
 </td>
 <td style="text-align:left;">
-2013-12-12
+2019-09-11
 </td>
 <td style="text-align:left;">
-2013
+2019
 </td>
 <td style="text-align:left;">
-E
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MPESA
-</td>
-<td style="text-align:left;">
-1368093932992
-</td>
-<td style="text-align:left;">
-DL50KW273 Confirmed.
-on 9/5/13 at 1:05 PM
-Withdraw KshXX.XX from 080034 - Spiders Mobile Kimathi Street EXT
-New M-PESA balance is KshXX.XXUpdate menu &amp; activate Mshwari
-</td>
-<td style="text-align:left;">
-May 9, 2013 1:05:32 PM
-</td>
-<td style="text-align:left;">
-DL50KW273
-</td>
-<td style="text-align:left;">
-DL
-</td>
-<td style="text-align:left;">
-2013-05-09
-</td>
-<td style="text-align:left;">
-2013
-</td>
-<td style="text-align:left;">
-D
+N
 </td>
 </tr>
 <tr>
@@ -447,57 +412,28 @@ D
 MPESA
 </td>
 <td style="text-align:left;">
-1425209771315
+1529425418009
 </td>
 <td style="text-align:left;">
-GO30BZ885 Confirmed. KshXX.XX transferred to M-Shwari account on 1/3/15 at 2:18 PM. M-PESA balance is KshXX.XX new M-Shwari account balance is KshXX.XXFree airtime,dial <em>234</em>6*2#
+MFJ92GZYOD Confirmed. KshXX.XX paid to XXXX on 19/6/18 at 7:23 PM.New M-PESA balance is KshXX.XX Transaction cost, KshXX.XX
 </td>
 <td style="text-align:left;">
-Mar 1, 2015 2:36:11 PM
+19 Jun 2018 19:23:38
 </td>
 <td style="text-align:left;">
-GO30BZ885
+MFJ92GZYOD
 </td>
 <td style="text-align:left;">
-GO
+MF
 </td>
 <td style="text-align:left;">
-2015-03-01
+2018-06-19
 </td>
 <td style="text-align:left;">
-2015
+2018
 </td>
 <td style="text-align:left;">
-G
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-MPESA
-</td>
-<td style="text-align:left;">
-1408524582590
-</td>
-<td style="text-align:left;">
-FN55EE733 Confirmed. KshXX.XX transferred to M-Shwari account on 20/8/14 at 11:34 AM. M-PESA balance is KshXX.XX new M-Shwari account balance is KshXX.XX
-</td>
-<td style="text-align:left;">
-Aug 20, 2014 11:49:42 AM
-</td>
-<td style="text-align:left;">
-FN55EE733
-</td>
-<td style="text-align:left;">
-FN
-</td>
-<td style="text-align:left;">
-2014-08-20
-</td>
-<td style="text-align:left;">
-2014
-</td>
-<td style="text-align:left;">
-F
+M
 </td>
 </tr>
 <tr>
@@ -505,29 +441,87 @@ F
 MPESA
 </td>
 <td style="text-align:left;">
-1406618859055
+1406736222899
 </td>
 <td style="text-align:left;">
-FK73VQ085 confirmed. You bought KshXX.XX of airtime on 29/7/14 at 10:12 AM
-New M-PESA balance is KshXX.XXSave your MPESA contacts in your SIM card
+FK92RV751 confirmed. You bought KshXX.XX of airtime for XXXX on 30/7/14 at 6:49 PM
+New M-PESA balance is KshXX.XX
 </td>
 <td style="text-align:left;">
-Jul 29, 2014 10:27:39 AM
+Jul 30, 2014 7:03:42 PM
 </td>
 <td style="text-align:left;">
-FK73VQ085
+FK92RV751
 </td>
 <td style="text-align:left;">
 FK
 </td>
 <td style="text-align:left;">
-2014-07-29
+2014-07-30
 </td>
 <td style="text-align:left;">
 2014
 </td>
 <td style="text-align:left;">
 F
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1541494468557
+</td>
+<td style="text-align:left;">
+MK66PCFXQK confirmed.You bought KshXX.XX of airtime for XXXX on 6/11/18 at 11:54 AM.New balance is KshXX.XX Transaction cost, KshXX.XX
+</td>
+<td style="text-align:left;">
+6 Nov 2018 11:54:28
+</td>
+<td style="text-align:left;">
+MK66PCFXQK
+</td>
+<td style="text-align:left;">
+MK
+</td>
+<td style="text-align:left;">
+2018-11-06
+</td>
+<td style="text-align:left;">
+2018
+</td>
+<td style="text-align:left;">
+M
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MPESA
+</td>
+<td style="text-align:left;">
+1513704840410
+</td>
+<td style="text-align:left;">
+LLJ3RY4229 Confirmed.You have received KshXX.XX from XXXX on 19/12/17 at 8:33 PM New M-PESA balance is KshXX.XX Pay bills via M-PESA.
+</td>
+<td style="text-align:left;">
+19 Dec 2017 20:34:00
+</td>
+<td style="text-align:left;">
+LLJ3RY4229
+</td>
+<td style="text-align:left;">
+LL
+</td>
+<td style="text-align:left;">
+2017-12-19
+</td>
+<td style="text-align:left;">
+2017
+</td>
+<td style="text-align:left;">
+L
 </td>
 </tr>
 </tbody>
@@ -583,6 +577,11 @@ F
             vjust = 1.5, colour = &quot;white&quot;) + 
   ylab(&quot;Number of transactions&quot;) + 
   ggtitle(&quot;Frequency of Transactions&quot;, &quot;Oct 2012 - Jan 2020&quot;)</code></pre>
+<pre><code>## Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(count)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
 <p><img src="/post/2020-05-15-mpesa_receipt_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>The first letter is the year. Let us test that.</p>
 <pre class="r"><code>dt_mpesa %&gt;% 
@@ -696,33 +695,33 @@ ggplot(dt_mpesa, aes(x = year, y = receipt_dig1)) +
 <tbody>
 <tr class="odd">
 <td align="left">2014</td>
+<td align="right">2</td>
+<td align="left">EQ</td>
 <td align="right">4</td>
-<td align="left">EW</td>
-<td align="right">6</td>
 </tr>
 <tr class="even">
 <td align="left">2014</td>
-<td align="right">1</td>
-<td align="left">GD</td>
-<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">ER</td>
+<td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">2013</td>
-<td align="right">1</td>
-<td align="left">CZ</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td align="left">2013</td>
-<td align="right">10</td>
-<td align="left">EC</td>
+<td align="left">2014</td>
+<td align="right">12</td>
+<td align="left">GB</td>
 <td align="right">8</td>
 </tr>
+<tr class="even">
+<td align="left">2014</td>
+<td align="right">10</td>
+<td align="left">FU</td>
+<td align="right">9</td>
+</tr>
 <tr class="odd">
 <td align="left">2014</td>
-<td align="right">3</td>
-<td align="left">ET</td>
-<td align="right">5</td>
+<td align="right">10</td>
+<td align="left">FV</td>
+<td align="right">12</td>
 </tr>
 </tbody>
 </table>
