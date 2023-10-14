@@ -1,0 +1,87 @@
+---
+title: "Messy affair of DATEing"
+description: "What to do when you dealing with DATES"
+date: 2023-10-13
+tag: ["r","r-tutorial"]
+output: 
+   rmarkdown::html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    code_folding: hide
+    code_downlod: true
+    highlight: textmate
+
+
+---
+
+
+
+<div id="dates-are-always-a-messy-affair" class="section level1">
+<h1>Dates are always a messy affair</h1>
+<p>My apologies if you thought I would be talking about dates, yes definetly I will be talking about dates but not that type of date you thinking but the actual <em>dates</em>.</p>
+<p>Do you love dates, personally I do but they can be a mouthful of headaches if you understand what I mean. So here goes my dating scenes.</p>
+</div>
+<div id="planning-for-dates" class="section level1">
+<h1>Planning for dates</h1>
+<p>You cannot talk about <em>date</em> without specifying <em>time</em>. They are kind of intertwined somehow. In fact there is even an <em>ISO Standard 1860</em> specifically for this <a href="https://www.iso.org/iso-8601-date-and-time-format.html">here</a>, we should all follow this when dating and timing. Actual format <em>YYYY-MM-DD HH:MM:SS</em> or 2023-10-14 07:18:54.497921.</p>
+<p>When planning dates the details are really important.</p>
+</div>
+<div id="preparing-for-dates" class="section level1">
+<h1>Preparing for dates</h1>
+<p>I would advocate using <code>lubridate</code> r package for easier understanding and manipulation of dates rather. I find it easier than base R but to each their own. Your date is your date and we cannot be all on the same date.</p>
+</div>
+<div id="functions-within-dates" class="section level1">
+<h1>Functions within dates</h1>
+<table>
+<colgroup>
+<col width="35%" />
+<col width="64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>now()</code></td>
+<td>Returns date and time right now, at this instance</td>
+</tr>
+<tr class="even">
+<td><code>today()</code></td>
+<td>Returns the date today</td>
+</tr>
+<tr class="odd">
+<td><code>parse_date_time</code></td>
+<td>Returns date from list of text you can specify the ordering e.g. <code>ymd, dmy, mdy</code> where y (year), m (month) and d (day)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="manipulating-your-date" class="section level1">
+<h1>Manipulating your date</h1>
+<p>You can always apply mathematical parameters when dealing with dates mainly <code>+, -</code>. Adding and subtracting days to come up with future or past dates.</p>
+<p>With this we need to understand two principles:</p>
+<ol style="list-style-type: decimal">
+<li><code>period</code> :- Human time value e.g. months, days, years, hours. R respective codes <code>days</code>, <code>hours</code>, <code>dweeks</code>.</li>
+<li><code>duration</code> :- Time value based in seconds calculating like a stop watch time for 86400 secs. Doesn’t adhere to leap years, day light saving and all. R respective codes <code>ddays</code>, <code>dhours</code>, <code>dweeks</code> addition of prefix <code>d</code>.</li>
+</ol>
+<p>When adhering to date rules i.e leap years we can use <code>%m+%</code> to add days and <code>%m-%</code> for subtracting.</p>
+<pre class="r"><code>library(lubridate)
+
+first_corona_case_date = parse_date_time(&quot;12 January 2020&quot;, orders = &quot;dmy&quot; ,tz = &quot;&quot;)
+
+first_corona_case_date</code></pre>
+<pre><code>## [1] &quot;2020-01-12 EAT&quot;</code></pre>
+<p>The first case of corona (COVID-19) was reported on 2020-01-12 and 3 months down we first the a million case.</p>
+<pre class="r"><code>million_corona_case_date = first_corona_case_date + months(3)
+
+million_corona_case_date</code></pre>
+<pre><code>## [1] &quot;2020-04-12 EAT&quot;</code></pre>
+<p>The first million case reproted was 2020-04-12</p>
+</div>
+<div id="the-date-continues-next-time" class="section level1">
+<h1>The date continues next time</h1>
+</div>

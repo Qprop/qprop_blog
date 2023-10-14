@@ -1,0 +1,86 @@
+---
+title: "Messy affair of DATEing"
+description: "What to do when you dealing with DATES"
+date: 2023-10-13
+tag: ["r","r-tutorial"]
+output: 
+   rmarkdown::html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    code_folding: hide
+    code_downlod: true
+    highlight: textmate
+
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Dates are always a messy affair
+
+My apologies if you thought I would be talking about dates, yes definetly I will be talking about dates but not that type of date you thinking but the actual *dates*.
+
+Do you love dates, personally I do but they can be a mouthful of headaches if you understand what I mean. So here goes my dating scenes.
+
+# Planning for dates
+
+You cannot talk about *date* without specifying *time*. They are kind of intertwined somehow. In fact there is even an *ISO Standard 1860* specifically for this [here](https://www.iso.org/iso-8601-date-and-time-format.html), we should all follow this when dating and timing. Actual format *YYYY-MM-DD HH:MM:SS* or `r lubridate::now(tzone = "")`. 
+
+When planning dates the details are really important.
+
+# Preparing for dates
+
+I would advocate using `lubridate` r package for easier understanding and manipulation of dates rather. I find it easier than base R but to each their own. Your date is your date and we cannot be all on the same date.
+
+# Functions within dates
+
+
+Function | Description 
+-----| --------- 
+`now()` | Returns date and time right now, at this instance
+`today()` | Returns the date today
+`parse_date_time` | Returns date from list of text you can specify the ordering e.g. `ymd, dmy, mdy` where y (year), m (month) and d (day) 
+
+
+# Manipulating your date
+
+You can always apply mathematical parameters when dealing with dates mainly `+, -`. Adding and subtracting days to come up with future or past dates.
+
+With this we need to understand two principles:
+
+1. `period` :- Human time value e.g. months, days, years, hours. R respective codes `days`, `hours`, `dweeks`.
+1. `duration` :- Time value based in seconds calculating like a stop watch time for 86400 secs. Doesn't adhere to leap years, day light saving and all. R respective codes `ddays`, `dhours`, `dweeks` addition of prefix `d`.
+
+
+
+When adhering to date rules i.e leap years we can use `%m+%` to add days and `%m-%` for subtracting.
+
+```{r message=FALSE, warning=FALSE}
+
+library(lubridate)
+
+first_corona_case_date = parse_date_time("12 January 2020", orders = "dmy" ,tz = "")
+
+first_corona_case_date
+
+
+```
+The first case of corona (COVID-19) was reported on `r first_corona_case_date` and 3 months down we first the a million case.
+
+```{r message=FALSE, warning=FALSE}
+
+million_corona_case_date = first_corona_case_date + months(3)
+
+million_corona_case_date
+
+
+```
+
+
+The first million case reproted was `r million_corona_case_date`
+
+
+# The date continues next time
