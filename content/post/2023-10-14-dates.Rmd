@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Dates are always a messy affair
 
-My apologies if you thought I would be talking about dates, yes definetly I will be talking about dates but not that type of date you thinking but the actual *dates*.
+My apologies if you thought I would be talking about dates, yes definitely I will be talking about dates but not that type of date you thinking but the actual *dates*.
 
 Do you love dates, personally I do but they can be a mouthful of headaches if you understand what I mean. So here goes my dating scenes.
 
@@ -80,7 +80,32 @@ million_corona_case_date
 ```
 
 
-The first million case reproted was `r million_corona_case_date`
+The first million case reported was `r million_corona_case_date`
 
 
-# The date continues next time
+# How do we sort long distance dating
+
+You planned for the date but your partner is in a different timezone how do you align the time. Now the particulars of your date apart from time has an extra component of timezone.
+
+Assuming you are based in _Tokyo_ and your partner is abased in _Nariobi_ . First when using R we need to pick the list of city time zone `OlsonNames` e.g. `r OlsonNames()[1]`  for _Tokyo_ name is `r OlsonNames()[44]` and _Nairobi_ is `r OlsonNames()[322]`
+
+
+When _Nairobi_ partner says the call is happening 8PM the parner in _Tokyo_ has to use the `with_tz()` function in R to calculate the time.
+
+```{r message=FALSE, warning=FALSE}
+
+Nariobi_time <- force_tz(as_datetime("2023-09-01 20:00:00"), tz = "Africa/Nairobi")
+Nariobi_time
+
+```
+
+```{r message=FALSE, warning=FALSE}
+
+Tokyo_time <- with_tz(Nariobi_time, tzone = "Asia/Tokyo")
+Tokyo_time
+
+```
+
+
+# The date continues next time 
+# When we schedule the next date hope I wasn't a boring partner.

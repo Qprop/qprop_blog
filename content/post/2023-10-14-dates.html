@@ -19,12 +19,12 @@ output:
 
 <div id="dates-are-always-a-messy-affair" class="section level1">
 <h1>Dates are always a messy affair</h1>
-<p>My apologies if you thought I would be talking about dates, yes definetly I will be talking about dates but not that type of date you thinking but the actual <em>dates</em>.</p>
+<p>My apologies if you thought I would be talking about dates, yes definitely I will be talking about dates but not that type of date you thinking but the actual <em>dates</em>.</p>
 <p>Do you love dates, personally I do but they can be a mouthful of headaches if you understand what I mean. So here goes my dating scenes.</p>
 </div>
 <div id="planning-for-dates" class="section level1">
 <h1>Planning for dates</h1>
-<p>You cannot talk about <em>date</em> without specifying <em>time</em>. They are kind of intertwined somehow. In fact there is even an <em>ISO Standard 1860</em> specifically for this <a href="https://www.iso.org/iso-8601-date-and-time-format.html">here</a>, we should all follow this when dating and timing. Actual format <em>YYYY-MM-DD HH:MM:SS</em> or 2023-10-14 07:18:54.497921.</p>
+<p>You cannot talk about <em>date</em> without specifying <em>time</em>. They are kind of intertwined somehow. In fact there is even an <em>ISO Standard 1860</em> specifically for this <a href="https://www.iso.org/iso-8601-date-and-time-format.html">here</a>, we should all follow this when dating and timing. Actual format <em>YYYY-MM-DD HH:MM:SS</em> or 2023-10-15 00:19:43.825418.</p>
 <p>When planning dates the details are really important.</p>
 </div>
 <div id="preparing-for-dates" class="section level1">
@@ -80,8 +80,20 @@ first_corona_case_date</code></pre>
 
 million_corona_case_date</code></pre>
 <pre><code>## [1] &quot;2020-04-12 EAT&quot;</code></pre>
-<p>The first million case reproted was 2020-04-12</p>
+<p>The first million case reported was 2020-04-12</p>
 </div>
-<div id="the-date-continues-next-time" class="section level1">
-<h1>The date continues next time</h1>
+<div id="how-do-we-sort-long-distance-dating" class="section level1">
+<h1>How do we sort long distance dating</h1>
+<p>You planned for the date but your partner is in a different timezone how do you align the time. Now the particulars of your date apart from time has an extra component of timezone.</p>
+<p>Assuming you are based in <em>Tokyo</em> and your partner is abased in <em>Nariobi</em> . First when using R we need to pick the list of city time zone <code>OlsonNames</code> e.g. Africa/Abidjan for <em>Tokyo</em> name is Africa/Nairobi and <em>Nairobi</em> is Asia/Tokyo</p>
+<p>When <em>Nairobi</em> partner says the call is happening 8PM the parner in <em>Tokyo</em> has to use the <code>with_tz()</code> function in R to calculate the time.</p>
+<pre class="r"><code>Nariobi_time &lt;- force_tz(as_datetime(&quot;2023-09-01 20:00:00&quot;), tz = &quot;Africa/Nairobi&quot;)
+Nariobi_time</code></pre>
+<pre><code>## [1] &quot;2023-09-01 20:00:00 EAT&quot;</code></pre>
+<pre class="r"><code>Tokyo_time &lt;- with_tz(Nariobi_time, tzone = &quot;Asia/Tokyo&quot;)
+Tokyo_time</code></pre>
+<pre><code>## [1] &quot;2023-09-02 02:00:00 JST&quot;</code></pre>
+</div>
+<div id="the-date-continues-next-time-when-we-schedule-the-next-date-hope-i-wasnt-a-boring-partner." class="section level1">
+<h1>The date continues next time | When we schedule the next date hope I wasn’t a boring partner.</h1>
 </div>
