@@ -25,6 +25,7 @@ Fuel prices increase has been steadily increasing with the regulator [EPRA](http
 
 # Let us collect this fuel prices from their websites
 
+NOTE: EPRA Changed website pages hence now file locations have changed and yet to be updated
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -39,38 +40,39 @@ library(dplyr)
 
 library(tidyr)
 
-URL <- "https://www.epra.go.ke/services/petroleum/petroleum-prices/"
 
-epra <- read_html(URL)
-
-epra_price_list <- epra %>% 
-  html_elements("p")
-
-epra_links <- epra_price_list %>% 
-  html_elements("a") %>% 
-  html_attrs() %>% 
-  unlist() %>% 
-  unname()
-
-epra_links <- epra_links[!str_detect(epra_links, fixed("FINAL-ACTUAL-PUMP-PRICES"))]
-
-epra_data_Csv <- epra_links[str_detect(epra_links, ".csv")]
-
-epra_data_Csv <- epra_data_Csv[!duplicated(epra_data_Csv)]
-
-epra_data_Csv <- epra_data_Csv[!str_detect(epra_data_Csv, fixed("15th-April-2023-to-14th-may-2023"))]
-
-epra_data_xlsx <- epra_links[str_detect(epra_links, ".xlsx")]
+# URL <- "https://www.epra.go.ke/services/petroleum/petroleum-prices/"
+# 
+# epra <- read_html(URL)
+# 
+# epra_price_list <- epra %>% 
+#   html_elements("p")
+# 
+# epra_links <- epra_price_list %>% 
+#   html_elements("a") %>% 
+#   html_attrs() %>% 
+#   unlist() %>% 
+#   unname()
+# 
+# epra_links <- epra_links[!str_detect(epra_links, fixed("FINAL-ACTUAL-PUMP-PRICES"))]
+# 
+# epra_data_Csv <- epra_links[str_detect(epra_links, ".csv")]
+# 
+# epra_data_Csv <- epra_data_Csv[!duplicated(epra_data_Csv)]
+# 
+# epra_data_Csv <- epra_data_Csv[!str_detect(epra_data_Csv, fixed("15th-April-2023-to-14th-may-2023"))]
+# 
+# epra_data_xlsx <- epra_links[str_detect(epra_links, ".xlsx")]
 
 ```
 
 
 ```{r}
 
-epra_data_xlsx_merge <- epra_data_xlsx %>% 
-  set_names(epra_data_xlsx) %>% 
-  map_dfr(~openxlsx::read.xlsx(.),
-          .id = "file")
+# epra_data_xlsx_merge <- epra_data_xlsx %>% 
+#   set_names(epra_data_xlsx) %>% 
+#   map_dfr(~openxlsx::read.xlsx(.),
+#           .id = "file")
 
 #https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv
 
@@ -81,53 +83,53 @@ epra_data_xlsx_merge <- epra_data_xlsx %>%
 
 ```{r}
 
-colnames(epra_data_xlsx_merge)
-
-epra_data_xlsx_merge %>% 
-  select(contains(c("2022","2023"))) %>% 
-  view()
-
-list_towns <- epra_data_xlsx_merge %>% 
-  select(contains(c("2022","2023"))) %>% 
-  colnames()
-
-list_towns <- c(list_towns, "Town", "TOWN")
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge %>% 
-  unite("Town_comb", list_towns, na.rm = TRUE, remove = TRUE)
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
-         Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
-  
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Diesel, X4), ~as.double(.)),
-         Diesel_comb = coalesce(Diesel, X4))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Kerosene, X5), ~as.double(.)),
-         Kerosene_comb = coalesce(Kerosene, X5))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(Period_comb = coalesce(Price.Period, Period))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))
+# colnames(epra_data_xlsx_merge)
+# 
+# epra_data_xlsx_merge %>% 
+#   select(contains(c("2022","2023"))) %>% 
+#   view()
+# 
+# list_towns <- epra_data_xlsx_merge %>% 
+#   select(contains(c("2022","2023"))) %>% 
+#   colnames()
+# 
+# list_towns <- c(list_towns, "Town", "TOWN")
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge %>% 
+#   unite("Town_comb", list_towns, na.rm = TRUE, remove = TRUE)
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
+#          Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
+#   
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Diesel, X4), ~as.double(.)),
+#          Diesel_comb = coalesce(Diesel, X4))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Kerosene, X5), ~as.double(.)),
+#          Kerosene_comb = coalesce(Kerosene, X5))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(Period_comb = coalesce(Price.Period, Period))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))
 
 ```
 
 
 ```{r}
 
-epra_data_Csv_merge <- epra_data_Csv %>% 
-  set_names(epra_data_Csv) %>% 
-  map_dfr(~read_csv(.),
-          .id = "file")
-
-epra_data_Csv_merge1 <- "https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv" %>% 
-  set_names("https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv") %>% 
-  map_dfr(~read_csv(.),
-          .id = "file")
+# epra_data_Csv_merge <- epra_data_Csv %>% 
+#   set_names(epra_data_Csv) %>% 
+#   map_dfr(~read_csv(.),
+#           .id = "file")
+# 
+# epra_data_Csv_merge1 <- "https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv" %>% 
+#   set_names("https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv") %>% 
+#   map_dfr(~read_csv(.),
+#           .id = "file")
 
 ```
 
@@ -154,38 +156,38 @@ epra_data_Csv_merge1 <- "https://www.epra.go.ke/wp-content/uploads/2020/07/15th-
 # epra_data_Csv_merge2 <- bind_rows(csv_split1, csv_split2) 
 
 
-colnames(epra_data_Csv_merge)
-
-epra_data_Csv_merge %>% 
-  select(contains(c("2022","2023"))) %>% 
-  view()
-
-list_towns <- epra_data_Csv_merge %>% 
-  select(contains(c("2022","2023"))) %>% 
-  colnames()
-
-list_towns <- c(list_towns, "Town", "TOWN")
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge %>% 
-  unite("Town_comb", list_towns, na.rm = TRUE, remove = TRUE)
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
-         Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
-  
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Diesel, X4), ~as.double(.)),
-         Diesel_comb = coalesce(Diesel, X4))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(across(c(Kerosene, X5), ~as.double(.)),
-         Kerosene_comb = coalesce(Kerosene, X5))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  mutate(Period_comb = coalesce(Price.Period, Period))
-
-epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
-  select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))
+# colnames(epra_data_Csv_merge)
+# 
+# epra_data_Csv_merge %>% 
+#   select(contains(c("2022","2023"))) %>% 
+#   view()
+# 
+# list_towns <- epra_data_Csv_merge %>% 
+#   select(contains(c("2022","2023"))) %>% 
+#   colnames()
+# 
+# list_towns <- c(list_towns, "Town", "TOWN")
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge %>% 
+#   unite("Town_comb", list_towns, na.rm = TRUE, remove = TRUE)
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
+#          Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
+#   
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Diesel, X4), ~as.double(.)),
+#          Diesel_comb = coalesce(Diesel, X4))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(across(c(Kerosene, X5), ~as.double(.)),
+#          Kerosene_comb = coalesce(Kerosene, X5))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   mutate(Period_comb = coalesce(Price.Period, Period))
+# 
+# epra_data_xlsx_merge1 <- epra_data_xlsx_merge1 %>% 
+#   select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))
 
 ```
 
