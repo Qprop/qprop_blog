@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> © Copyright notice</copyright>
-    <lastBuildDate>Fri, 13 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Oct 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fueling The Increased Prices</title>
+      <link>/post/2023-10-20-fuel-price-tracker/</link>
+      <pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2023-10-20-fuel-price-tracker/</guid>
+      <description>Fuel prices in KEFuel prices increase has been steadily increasing with the regulator EPRA. Annoucing new prices every mid month on the night of 14th.
+Let us collect this fuel prices from their websitesNOTE: EPRA Changed website pages hence now file locations have changed and yet to be updated
+library(rvest)library(tibble)library(purrr)library(openxlsx)library(readr)library(stringr)library(dplyr)library(tidyr)# URL &amp;lt;- &amp;quot;https://www.epra.go.ke/services/petroleum/petroleum-prices/&amp;quot;# # epra &amp;lt;- read_html(URL)# # epra_price_list &amp;lt;- epra %&amp;gt;% # html_elements(&amp;quot;p&amp;quot;)# # epra_links &amp;lt;- epra_price_list %&amp;gt;% # html_elements(&amp;quot;a&amp;quot;) %&amp;gt;% # html_attrs() %&amp;gt;% # unlist() %&amp;gt;% # unname()# # epra_links &amp;lt;- epra_links[!</description>
+    </item>
     
     <item>
       <title>Messy affair of DATEing</title>
@@ -273,6 +284,17 @@ We use RegEx on a daily basis it is just that we do not know areas where we use 
 Am a statistician/data analyst by day and data science enthusiast by night.
  Mental journeys shuttling between utopia, dystopia and bordering paranoia.
  I have been fiddling about the idea of a blog. Nothing fancy just my own space where I pour my thoughts, musings, perturbation and amusements.</description>
+    </item>
+    
+    <item>
+      <title>Reading Book Collection</title>
+      <link>/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/books/</guid>
+      <description>Beeing somewhat an avid reader, I usually get queries on books I can suggest to people for them to read.
+So I would recommend and eventually realised most of what I recommend I need to track them. So the simple table below contains titles I have read. Not a comprehensive list though and it has more than enough.
+I will try to update as much as possible.</description>
     </item>
     
   </channel>

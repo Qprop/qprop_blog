@@ -1,0 +1,165 @@
+---
+title: "Fueling The Increased Prices"
+description: "webscraping fuel prices"
+date: 2023-10-20
+tag: ["r","r-tutorial"]
+output: 
+   rmarkdown::html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    code_folding: hide
+    code_downlod: true
+    highlight: textmate
+
+
+---
+
+
+
+<div id="fuel-prices-in-ke" class="section level1">
+<h1>Fuel prices in KE</h1>
+<p>Fuel prices increase has been steadily increasing with the regulator <a href="https://www.epra.go.ke/services/petroleum/petroleum-prices/">EPRA</a>. Annoucing new prices every mid month on the night of 14th.</p>
+</div>
+<div id="let-us-collect-this-fuel-prices-from-their-websites" class="section level1">
+<h1>Let us collect this fuel prices from their websites</h1>
+<p>NOTE: EPRA Changed website pages hence now file locations have changed and yet to be updated</p>
+<pre class="r"><code>library(rvest)
+library(tibble)
+library(purrr)
+library(openxlsx)
+library(readr)
+library(stringr)
+library(dplyr)
+
+library(tidyr)
+
+
+# URL &lt;- &quot;https://www.epra.go.ke/services/petroleum/petroleum-prices/&quot;
+# 
+# epra &lt;- read_html(URL)
+# 
+# epra_price_list &lt;- epra %&gt;% 
+#   html_elements(&quot;p&quot;)
+# 
+# epra_links &lt;- epra_price_list %&gt;% 
+#   html_elements(&quot;a&quot;) %&gt;% 
+#   html_attrs() %&gt;% 
+#   unlist() %&gt;% 
+#   unname()
+# 
+# epra_links &lt;- epra_links[!str_detect(epra_links, fixed(&quot;FINAL-ACTUAL-PUMP-PRICES&quot;))]
+# 
+# epra_data_Csv &lt;- epra_links[str_detect(epra_links, &quot;.csv&quot;)]
+# 
+# epra_data_Csv &lt;- epra_data_Csv[!duplicated(epra_data_Csv)]
+# 
+# epra_data_Csv &lt;- epra_data_Csv[!str_detect(epra_data_Csv, fixed(&quot;15th-April-2023-to-14th-may-2023&quot;))]
+# 
+# epra_data_xlsx &lt;- epra_links[str_detect(epra_links, &quot;.xlsx&quot;)]</code></pre>
+<pre class="r"><code># epra_data_xlsx_merge &lt;- epra_data_xlsx %&gt;% 
+#   set_names(epra_data_xlsx) %&gt;% 
+#   map_dfr(~openxlsx::read.xlsx(.),
+#           .id = &quot;file&quot;)
+
+#https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv
+
+#Need to create A different read since the structure is slightly off.</code></pre>
+<pre class="r"><code># colnames(epra_data_xlsx_merge)
+# 
+# epra_data_xlsx_merge %&gt;% 
+#   select(contains(c(&quot;2022&quot;,&quot;2023&quot;))) %&gt;% 
+#   view()
+# 
+# list_towns &lt;- epra_data_xlsx_merge %&gt;% 
+#   select(contains(c(&quot;2022&quot;,&quot;2023&quot;))) %&gt;% 
+#   colnames()
+# 
+# list_towns &lt;- c(list_towns, &quot;Town&quot;, &quot;TOWN&quot;)
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge %&gt;% 
+#   unite(&quot;Town_comb&quot;, list_towns, na.rm = TRUE, remove = TRUE)
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
+#          Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
+#   
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Diesel, X4), ~as.double(.)),
+#          Diesel_comb = coalesce(Diesel, X4))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Kerosene, X5), ~as.double(.)),
+#          Kerosene_comb = coalesce(Kerosene, X5))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(Period_comb = coalesce(Price.Period, Period))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))</code></pre>
+<pre class="r"><code># epra_data_Csv_merge &lt;- epra_data_Csv %&gt;% 
+#   set_names(epra_data_Csv) %&gt;% 
+#   map_dfr(~read_csv(.),
+#           .id = &quot;file&quot;)
+# 
+# epra_data_Csv_merge1 &lt;- &quot;https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv&quot; %&gt;% 
+#   set_names(&quot;https://www.epra.go.ke/wp-content/uploads/2020/07/15th-April-2023-to-14th-may-2023.csv&quot;) %&gt;% 
+#   map_dfr(~read_csv(.),
+#           .id = &quot;file&quot;)</code></pre>
+<pre class="r"><code># csv_split1 &lt;- epra_data_Csv_merge1 %&gt;% 
+#   select(file,&quot;...1&quot;:&quot;...5&quot;)
+# 
+# colnames(csv_split1) &lt;- c(&quot;file&quot;,&quot;number&quot;,&quot;Town&quot;, &quot;Super&quot;, &quot;Diesel&quot;, &quot;Kerosene&quot;)
+# 
+# csv_split2 &lt;- epra_data_Csv_merge1 %&gt;% 
+#   select(file,&quot;...7&quot;:&quot;...11&quot;)
+# 
+# colnames(csv_split2) &lt;- c(&quot;file&quot;,&quot;number&quot;,&quot;Town&quot;, &quot;Super&quot;, &quot;Diesel&quot;, &quot;Kerosene&quot;)
+# 
+# csv_split3 &lt;- epra_data_Csv_merge1 %&gt;% 
+#   select(file,&quot;...13&quot;:&quot;...17&quot;)
+# 
+# colnames(csv_split3) &lt;- c(&quot;file&quot;,&quot;number&quot;,&quot;Town&quot;, &quot;Super&quot;, &quot;Diesel&quot;, &quot;Kerosene&quot;)
+# 
+# epra_data_Csv_merge2 &lt;- bind_rows(csv_split1, csv_split2) 
+
+
+# colnames(epra_data_Csv_merge)
+# 
+# epra_data_Csv_merge %&gt;% 
+#   select(contains(c(&quot;2022&quot;,&quot;2023&quot;))) %&gt;% 
+#   view()
+# 
+# list_towns &lt;- epra_data_Csv_merge %&gt;% 
+#   select(contains(c(&quot;2022&quot;,&quot;2023&quot;))) %&gt;% 
+#   colnames()
+# 
+# list_towns &lt;- c(list_towns, &quot;Town&quot;, &quot;TOWN&quot;)
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge %&gt;% 
+#   unite(&quot;Town_comb&quot;, list_towns, na.rm = TRUE, remove = TRUE)
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES), ~as.double(.)),
+#          Super_comb = coalesce(Super, Super.Petrol, MAXIMUM.PUMP.PRICES))
+#   
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Diesel, X4), ~as.double(.)),
+#          Diesel_comb = coalesce(Diesel, X4))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(across(c(Kerosene, X5), ~as.double(.)),
+#          Kerosene_comb = coalesce(Kerosene, X5))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   mutate(Period_comb = coalesce(Price.Period, Period))
+# 
+# epra_data_xlsx_merge1 &lt;- epra_data_xlsx_merge1 %&gt;% 
+#   select(-c(Super, Super.Petrol, MAXIMUM.PUMP.PRICES, Diesel, X4,Kerosene, X5))</code></pre>
+</div>
+<div id="the-date-continues-next-time" class="section level1">
+<h1>The date continues next time</h1>
+</div>
+<div id="when-we-schedule-the-next-date-hope-i-wasnt-a-boring-partner." class="section level1">
+<h1>When we schedule the next date hope I wasn’t a boring partner.</h1>
+</div>
